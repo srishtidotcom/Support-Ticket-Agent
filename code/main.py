@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import traceback
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict
@@ -33,6 +34,24 @@ def build_pipeline() -> TicketAnalysisPipeline:
 	return TicketAnalysisPipeline(safety_agent=SafetyAgent(), routing_agent=RoutingAgent())
 
 
+OUTPUT_COLUMNS = [
+	"issue",
+	"subject",
+	"company",
+	"response",
+	"product_area",
+	"status",
+	"request_type",
+	"justification",
+	"confidence_score",
+	"source_documents",
+	"risk_level",
+	"pii_detected",
+	"language",
+	"actions_taken",
+]
+
+
 def _dump_model(model: Any) -> Dict[str, Any]:
 	if hasattr(model, "model_dump"):
 		return model.model_dump()
@@ -47,7 +66,7 @@ def main() -> None:
 	output_path = repo_root / "support_tickets" / "output.csv"
 
 	print(f"Loading tickets from {tickets_path}")
-	df = pd.read_csv(tickets_path)
+	df = pd.read_csv(tickets_path).fillna("")
 	print(f"Found {len(df)} tickets")
 
 	pipeline = build_pipeline()
@@ -68,28 +87,46 @@ def main() -> None:
 			classification = result.get("classification", {})
 			safety = result.get("safety", {})
 
+			row_out = {
+				"issue": row.get("Issue", ""),
+				"subject": row.get("Subject", ""),
+				"company": row.get("Company", ""),
+				"response": "",
+				"product_area": classification.get("product_area", "general_support"),
+				"status": "pending",
+				"request_type": classification.get("request_type", "product_issue"),
+				"justification": safety.get("reasoning") or classification.get("explain", ""),
+				"confidence_score": classification.get("confidence", 0.0),
+				"source_documents": "",
+				"risk_level": classification.get("risk_level", "low"),
+				"pii_detected": result.get("pii_detected", False),
+				"language": classification.get("language", "en"),
+				"actions_taken": "safety_check -> routing_check -> stub_response",
+			}
+			rows.append(row_out)
+		except Exception as exc:  # keep processing other tickets
+			print(f"Error processing ticket {idx + 1}: {exc}")
+			print(traceback.format_exc(limit=1).strip())
 			rows.append(
 				{
 					"issue": row.get("Issue", ""),
 					"subject": row.get("Subject", ""),
 					"company": row.get("Company", ""),
 					"response": "",
-					"product_area": classification.get("product_area"),
-					"status": "pending",
-					"request_type": classification.get("request_type"),
-					"justification": safety.get("reasoning") or classification.get("explain", ""),
-					"confidence_score": classification.get("confidence", 0.0),
+					"product_area": "general_support",
+					"status": "error",
+					"request_type": "product_issue",
+					"justification": f"Pipeline error: {exc}",
+					"confidence_score": 0.0,
 					"source_documents": "",
-					"risk_level": classification.get("risk_level"),
-					"pii_detected": result.get("pii_detected", False),
-					"language": classification.get("language", "en"),
-					"actions_taken": "",
+					"risk_level": "low",
+					"pii_detected": False,
+					"language": "en",
+					"actions_taken": "error_logged",
 				}
 			)
-		except Exception as exc:  # keep processing other tickets
-			print(f"Error processing ticket {idx}: {exc}")
 
-	out_df = pd.DataFrame(rows)
+	out_df = pd.DataFrame(rows, columns=OUTPUT_COLUMNS)
 	out_df.to_csv(output_path, index=False)
 	print(f"Wrote output to {output_path}")
 

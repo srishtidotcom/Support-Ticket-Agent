@@ -14,7 +14,7 @@ from .safety import PiiDetector
 class RoutingAgent:
 	"""Route a full ticket into a structured classification."""
 
-	def __init__(self, model_name: str = "claude-3-haiku-20240307") -> None:
+	def __init__(self, model_name: str = OLLAMA_MODEL_ROUTING) -> None:
 		self.model_name = model_name
 		self.pii_detector = PiiDetector()
 
@@ -150,7 +150,7 @@ class RoutingAgent:
 		if self._has_any(lowered, devplatform_terms):
 			return "DevPlatform", 0.95
 
-		if company_hint and company_hint.lower() != "none":
+		if company_hint and company_hint.lower() not in {"none", "unknown", "nan"}:
 			return company_hint, 0.55
 
 		return "unknown", 0.35
