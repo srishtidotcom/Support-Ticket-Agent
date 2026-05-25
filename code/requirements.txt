@@ -1,0 +1,11 @@
+numpy
+pydantic
+torch
+sentence-transformers
+langchain
+langchain-community
+langchain-ollama
+faiss-cpu
+rank_bm25
+pandas
+python-dotenv
