@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 from typing import List
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from core.document import Document, DocumentChunk
 
