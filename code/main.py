@@ -9,29 +9,48 @@ from typing import Any, Dict
 import pandas as pd
 
 from agents import RoutingAgent, SafetyAgent
+from agents.evidence_judge import EvidenceJudge
+from agents.retriever import RetrievalAgent
 
 
 @dataclass
 class TicketAnalysisPipeline:
 	safety_agent: SafetyAgent
 	routing_agent: RoutingAgent
+	retrieval_agent: RetrievalAgent
+	evidence_judge: EvidenceJudge
 
 	def analyze(self, ticket: Dict[str, Any]) -> Dict[str, Any]:
 		safety_result = self.safety_agent.assess_safety(ticket)
 		pii_detected, redacted_text = self.safety_agent.detect_pii(ticket)
 		classification = self.routing_agent.classify_ticket(ticket)
+		classification_payload = _dump_model(classification)
+
+		retrieved_chunks = self.retrieval_agent.retrieve(ticket=ticket, classification=classification_payload, top_k=5)
+		evidence_result = self.evidence_judge.evaluate(
+			ticket=ticket,
+			retrieved_chunks=retrieved_chunks,
+			classification=classification_payload,
+		)
 
 		return {
 			"ticket": ticket,
 			"safety": _dump_model(safety_result),
 			"pii_detected": pii_detected,
 			"redacted_text": redacted_text,
-			"classification": _dump_model(classification),
+			"classification": classification_payload,
+			"retrieval": retrieved_chunks,
+			"evidence": _dump_model(evidence_result),
 		}
 
 
 def build_pipeline() -> TicketAnalysisPipeline:
-	return TicketAnalysisPipeline(safety_agent=SafetyAgent(), routing_agent=RoutingAgent())
+	return TicketAnalysisPipeline(
+		safety_agent=SafetyAgent(),
+		routing_agent=RoutingAgent(),
+		retrieval_agent=RetrievalAgent(),
+		evidence_judge=EvidenceJudge(),
+	)
 
 
 OUTPUT_COLUMNS = [
@@ -60,7 +79,12 @@ def _dump_model(model: Any) -> Dict[str, Any]:
 	return dict(model)
 
 
-def _build_justification(safety: Dict[str, Any], classification: Dict[str, Any], status: str) -> str:
+def _build_justification(
+	safety: Dict[str, Any],
+	classification: Dict[str, Any],
+	evidence: Dict[str, Any],
+	status: str,
+) -> str:
 	safety_reason = str(safety.get("reasoning") or "safety check passed")
 	risk_level = str(classification.get("risk_level") or "low")
 	routing_reason = (
@@ -68,12 +92,16 @@ def _build_justification(safety: Dict[str, Any], classification: Dict[str, Any],
 		f"{classification.get('product_area', 'general_support')} / "
 		f"{classification.get('request_type', 'product_issue')}"
 	)
+	evidence_reason = str(evidence.get("reasoning") or "evidence check unavailable")
+	evidence_action = str(evidence.get("recommended_action") or "ask_clarification")
 	status_reason = f"status={status} because risk_level={risk_level}"
-	return " | ".join([safety_reason, status_reason, routing_reason])
+	return " | ".join([safety_reason, evidence_reason, f"evidence_action={evidence_action}", status_reason, routing_reason])
 
 
-def _decide_status(safety: Dict[str, Any], classification: Dict[str, Any]) -> str:
+def _decide_status(safety: Dict[str, Any], classification: Dict[str, Any], evidence: Dict[str, Any]) -> str:
 	if bool(safety.get("is_adversarial")):
+		return "escalated"
+	if str(evidence.get("recommended_action", "ask_clarification")) != "reply":
 		return "escalated"
 	if str(classification.get("risk_level", "low")) in {"high", "critical"}:
 		return "escalated"
@@ -106,7 +134,13 @@ def main() -> None:
 
 			classification = result.get("classification", {})
 			safety = result.get("safety", {})
-			status = _decide_status(safety, classification)
+			evidence = result.get("evidence", {})
+			retrieval = result.get("retrieval", [])
+			status = _decide_status(safety, classification, evidence)
+			source_documents = "|".join(evidence.get("top_sources", []))
+			actions_taken = "safety_check -> routing_check -> retrieval_check -> evidence_judge"
+			if not retrieval:
+				actions_taken += " -> no_evidence"
 
 			row_out = {
 				"issue": row.get("Issue", ""),
@@ -116,13 +150,13 @@ def main() -> None:
 				"product_area": classification.get("product_area", "general_support"),
 				"status": status,
 				"request_type": classification.get("request_type", "product_issue"),
-				"justification": _build_justification(safety, classification, status),
-				"confidence_score": classification.get("confidence", 0.0),
-				"source_documents": "",
+				"justification": _build_justification(safety, classification, evidence, status),
+				"confidence_score": evidence.get("confidence", classification.get("confidence", 0.0)),
+				"source_documents": source_documents,
 				"risk_level": classification.get("risk_level", "low"),
 				"pii_detected": result.get("pii_detected", False),
 				"language": classification.get("language", "en"),
-				"actions_taken": "safety_check -> routing_check -> stub_response",
+				"actions_taken": actions_taken,
 			}
 			rows.append(row_out)
 		except Exception as exc:  # keep processing other tickets
