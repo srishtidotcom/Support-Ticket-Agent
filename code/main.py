@@ -60,6 +60,26 @@ def _dump_model(model: Any) -> Dict[str, Any]:
 	return dict(model)
 
 
+def _build_justification(safety: Dict[str, Any], classification: Dict[str, Any], status: str) -> str:
+	safety_reason = str(safety.get("reasoning") or "safety check passed")
+	risk_level = str(classification.get("risk_level") or "low")
+	routing_reason = (
+		f"routed as {classification.get('company', 'unknown')} / "
+		f"{classification.get('product_area', 'general_support')} / "
+		f"{classification.get('request_type', 'product_issue')}"
+	)
+	status_reason = f"status={status} because risk_level={risk_level}"
+	return " | ".join([safety_reason, status_reason, routing_reason])
+
+
+def _decide_status(safety: Dict[str, Any], classification: Dict[str, Any]) -> str:
+	if bool(safety.get("is_adversarial")):
+		return "escalated"
+	if str(classification.get("risk_level", "low")) in {"high", "critical"}:
+		return "escalated"
+	return "replied"
+
+
 def main() -> None:
 	repo_root = Path(__file__).resolve().parents[1]
 	tickets_path = repo_root / "support_tickets" / "support_tickets.csv"
@@ -86,6 +106,7 @@ def main() -> None:
 
 			classification = result.get("classification", {})
 			safety = result.get("safety", {})
+			status = _decide_status(safety, classification)
 
 			row_out = {
 				"issue": row.get("Issue", ""),
@@ -93,9 +114,9 @@ def main() -> None:
 				"company": row.get("Company", ""),
 				"response": "",
 				"product_area": classification.get("product_area", "general_support"),
-				"status": "pending",
+				"status": status,
 				"request_type": classification.get("request_type", "product_issue"),
-				"justification": safety.get("reasoning") or classification.get("explain", ""),
+				"justification": _build_justification(safety, classification, status),
 				"confidence_score": classification.get("confidence", 0.0),
 				"source_documents": "",
 				"risk_level": classification.get("risk_level", "low"),
@@ -114,9 +135,9 @@ def main() -> None:
 					"company": row.get("Company", ""),
 					"response": "",
 					"product_area": "general_support",
-					"status": "error",
+					"status": "escalated",
 					"request_type": "product_issue",
-					"justification": f"Pipeline error: {exc}",
+					"justification": f"Pipeline error: {exc} | status=escalated because risk could not be computed | routed as general_support / general_support / product_issue",
 					"confidence_score": 0.0,
 					"source_documents": "",
 					"risk_level": "low",

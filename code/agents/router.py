@@ -220,19 +220,83 @@ class RoutingAgent:
 	def _infer_risk_level(self, text: str) -> Tuple[str, float]:
 		lowered = text.lower()
 
-		if self._has_any(
-			lowered,
-			("ssn", "aadhaar", "pan", "card number", "account hacked", "unauthorized", "refund me today", "legal", "gdpr", "right to erasure", "system prompt", "data breach", "security vulnerability"),
-		):
-			return "critical", 0.95
+		critical_markers = (
+			"legal threat",
+			"lawsuit",
+			"sue",
+			"gdpr",
+			"right to erasure",
+			"delete everything",
+			"delete all data",
+			"delete my data",
+			"prompt injection",
+			"system prompt",
+			"ceo",
+			"chief executive",
+			"executive",
+			"identity theft",
+			"fraud ring",
+			"data breach",
+			"security vulnerability",
+		)
+		if self._has_any(lowered, critical_markers):
+			return "critical", 0.88
 
-		if self._has_any(lowered, ("payment", "charge", "dispute", "blocked", "fraud", "identity theft", "password changed", "access lost", "urgent", "escalate")):
-			return "high", 0.88
+		high_markers = (
+			"card number",
+			"account hacked",
+			"unauthorized charge",
+			"fraud",
+			"stolen card",
+			"password changed",
+			"take over",
+			"compromised",
+			"pii",
+			"ssn",
+			"aadhaar",
+			"pan",
+		)
+		if self._has_any(lowered, high_markers):
+			return "high", 0.84
 
-		if self._has_any(lowered, ("bug", "error", "issue", "unable", "not working", "failing", "stopped")):
-			return "medium", 0.78
+		medium_markers = (
+			"billing",
+			"refund",
+			"subscription",
+			"cancel my subscription",
+			"payment",
+			"charge",
+			"dispute",
+			"access lost",
+			"locked out",
+			"cannot log in",
+			"unable to login",
+			"login issue",
+			"verify my account",
+		)
+		if self._has_any(lowered, medium_markers):
+			return "medium", 0.76
 
-		return "low", 0.55
+		low_markers = (
+			"how do i",
+			"how to",
+			"what is",
+			"where do i",
+			"when should i",
+			"please explain",
+			"best practice",
+			"technical issue",
+			"not working",
+			"error",
+			"bug",
+			"fails",
+			"failing",
+			"stopped working",
+		)
+		if self._has_any(lowered, low_markers):
+			return "low", 0.66
+
+		return "low", 0.52
 
 	def _detect_language(self, text: str) -> Tuple[str, float]:
 		lowered = text.lower()
