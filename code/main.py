@@ -10,7 +10,10 @@ import pandas as pd
 
 from agents import RoutingAgent, SafetyAgent
 from agents.evidence_judge import EvidenceJudge
+from agents.reflector import ReflectionAgent
+from agents.resolver import ResponseGenerator
 from agents.retriever import RetrievalAgent
+from tools.tool_engine import ToolEngine
 
 
 @dataclass
@@ -19,6 +22,9 @@ class TicketAnalysisPipeline:
 	routing_agent: RoutingAgent
 	retrieval_agent: RetrievalAgent
 	evidence_judge: EvidenceJudge
+	response_generator: ResponseGenerator
+	reflection_agent: ReflectionAgent
+	tool_engine: ToolEngine
 
 	def analyze(self, ticket: Dict[str, Any]) -> Dict[str, Any]:
 		safety_result = self.safety_agent.assess_safety(ticket)
@@ -32,6 +38,33 @@ class TicketAnalysisPipeline:
 			retrieved_chunks=retrieved_chunks,
 			classification=classification_payload,
 		)
+		evidence_payload = _dump_model(evidence_result)
+		source_documents = _collect_source_documents(evidence_payload, retrieved_chunks)
+
+		generated = self.response_generator.generate(
+			ticket=ticket,
+			classification=classification_payload,
+			retrieved_chunks=retrieved_chunks,
+			evidence_result=evidence_payload,
+		)
+		generated_payload = _dump_model(generated)
+		reflection_result = self.reflection_agent.validate(
+			ticket=ticket,
+			classification=classification_payload,
+			retrieved_chunks=retrieved_chunks,
+			evidence_result=evidence_payload,
+			generated_response=str(generated_payload.get("response", "")),
+			source_documents=source_documents,
+		)
+		reflection_payload = _dump_model(reflection_result)
+		status = _decide_status(_dump_model(safety_result), classification_payload, evidence_payload, reflection_payload)
+		actions = self.tool_engine.build_actions(
+			ticket=ticket,
+			classification=classification_payload,
+			evidence_result=evidence_payload,
+			reflection_result=reflection_payload,
+			status=status,
+		)
 
 		return {
 			"ticket": ticket,
@@ -40,7 +73,12 @@ class TicketAnalysisPipeline:
 			"redacted_text": redacted_text,
 			"classification": classification_payload,
 			"retrieval": retrieved_chunks,
-			"evidence": _dump_model(evidence_result),
+			"evidence": evidence_payload,
+			"generated": generated_payload,
+			"reflection": reflection_payload,
+			"status": status,
+			"actions": actions,
+			"source_documents": source_documents,
 		}
 
 
@@ -52,6 +90,9 @@ def build_pipeline() -> TicketAnalysisPipeline:
 		routing_agent=RoutingAgent(),
 		retrieval_agent=retrieval_agent,
 		evidence_judge=EvidenceJudge(),
+		response_generator=ResponseGenerator(),
+		reflection_agent=ReflectionAgent(),
+		tool_engine=ToolEngine(),
 	)
 
 
@@ -85,6 +126,8 @@ def _build_justification(
 	safety: Dict[str, Any],
 	classification: Dict[str, Any],
 	evidence: Dict[str, Any],
+	reflection: Dict[str, Any],
+	generated: Dict[str, Any],
 	status: str,
 ) -> str:
 	safety_reason = str(safety.get("reasoning") or "safety check passed")
@@ -96,12 +139,35 @@ def _build_justification(
 	)
 	evidence_reason = str(evidence.get("reasoning") or "evidence check unavailable")
 	evidence_action = str(evidence.get("recommended_action") or "ask_clarification")
-	status_reason = f"status={status} because risk_level={risk_level}"
-	return " | ".join([safety_reason, evidence_reason, f"evidence_action={evidence_action}", status_reason, routing_reason])
+	reflection_reason = str(reflection.get("reasoning") or "reflection unavailable")
+	reflection_action = str(reflection.get("final_action") or "unknown")
+	generation_reason = str(generated.get("reasoning") or "response generated from retrieved chunks")
+	status_reason = f"status={status} because risk_level={risk_level}, evidence_action={evidence_action}, reflection_action={reflection_action}"
+	return " | ".join(
+		[
+			safety_reason,
+			evidence_reason,
+			generation_reason,
+			reflection_reason,
+			status_reason,
+			routing_reason,
+		]
+	)
 
 
-def _decide_status(safety: Dict[str, Any], classification: Dict[str, Any], evidence: Dict[str, Any]) -> str:
+def _decide_status(
+	safety: Dict[str, Any],
+	classification: Dict[str, Any],
+	evidence: Dict[str, Any],
+	reflection: Dict[str, Any],
+) -> str:
+	if bool(safety.get("is_adversarial", False)):
+		return "escalated"
+	if str(classification.get("risk_level", "low")).lower() in {"high", "critical"}:
+		return "escalated"
 	if str(evidence.get("recommended_action", "ask_clarification")) == "escalate":
+		return "escalated"
+	if str(reflection.get("final_action", "escalate")) != "accept":
 		return "escalated"
 	return "replied"
 
@@ -149,23 +215,27 @@ def main() -> None:
 			classification = result.get("classification", {})
 			safety = result.get("safety", {})
 			evidence = result.get("evidence", {})
+			generated = result.get("generated", {})
+			reflection = result.get("reflection", {})
 			retrieval = result.get("retrieval", [])
-			status = _decide_status(safety, classification, evidence)
-			source_documents = _collect_source_documents(evidence, retrieval)
-			actions_taken = "safety_check -> routing_check -> retrieval_check -> evidence_judge"
-			if not retrieval:
-				actions_taken += " -> no_evidence"
+			status = result.get("status") or _decide_status(safety, classification, evidence, reflection)
+			source_documents = result.get("source_documents") or _collect_source_documents(evidence, retrieval)
+			actions_taken = json.dumps(result.get("actions", []), ensure_ascii=False)
 
 			row_out = {
 				"issue": row.get("Issue", ""),
 				"subject": row.get("Subject", ""),
 				"company": row.get("Company", ""),
-				"response": "",
+				"response": generated.get("response", ""),
 				"product_area": classification.get("product_area", "general_support"),
 				"status": status,
 				"request_type": classification.get("request_type", "product_issue"),
-				"justification": _build_justification(safety, classification, evidence, status),
-				"confidence_score": evidence.get("confidence", classification.get("confidence", 0.0)),
+				"justification": _build_justification(safety, classification, evidence, reflection, generated, status),
+				"confidence_score": min(
+					float(evidence.get("confidence", classification.get("confidence", 0.0)) or 0.0),
+					float(generated.get("confidence", 1.0) or 1.0),
+					float(reflection.get("confidence", 1.0) or 1.0),
+				),
 				"source_documents": source_documents,
 				"risk_level": classification.get("risk_level", "low"),
 				"pii_detected": result.get("pii_detected", False),
@@ -191,7 +261,18 @@ def main() -> None:
 					"risk_level": "low",
 					"pii_detected": False,
 					"language": "en",
-					"actions_taken": "error_logged",
+					"actions_taken": json.dumps(
+						[
+							{
+								"tool": "escalate_to_human",
+								"arguments": {
+									"priority": "high",
+									"department": "general",
+									"summary": "Pipeline error prevented safe automated resolution.",
+								},
+							}
+						]
+					),
 				}
 			)
 
