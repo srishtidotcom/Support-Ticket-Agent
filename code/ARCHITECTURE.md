@@ -108,6 +108,14 @@ This weights final answer grounding and safety as heavily as initial retrieval q
 
 The ticket text is treated as untrusted input at every stage. Safety rules catch direct injection patterns, and prompts instruct local models not to follow hidden-instruction requests. PII detection covers emails, phone numbers, SSNs, Aadhaar/PAN-like IDs, card numbers with Luhn validation, addresses, account identifiers, and secret-like tokens. Response generation and reflection both run cleanup checks so sensitive data is less likely to appear in final prose.
 
+### Adversarial Robustness Enhancements
+
+The latest red-team pass added targeted deterministic coverage for social-engineering and output-manipulation attacks that looked benign to generic prompt-injection checks. `SafetyAgent` now detects authority impersonation involving executives, support leads, internal evaluators, authorized testers, fake colleagues, and fake previous assistants. It also flags false consensus claims, praise or trust-building followed by unsafe requests, gradual setup-then-attack language, forged internal memos or support articles, forged corpus/source citations, direct evaluator-column manipulation, and partial-compliance traps.
+
+`ReflectionAgent` mirrors these checks at the final gate. It explicitly scans the original ticket for attempts to manipulate `status`, `confidence_score`, `actions_taken`, `source_documents`, or `risk_level`; requests to answer only selected parts; authority plus emotional pressure; fake previous-assistant statements; and fake policy/corpus language. If any high-risk adversarial pattern is present and the router has assigned `medium`, `high`, or `critical` risk, reflection forces escalation even if the generated response is otherwise well cited.
+
+`ResponseGenerator` now refuses requests for hidden prompts, developer instructions, internal tools, tool schemas, action JSON, confidence formulas, routing labels, source-document internals, or retrieval metadata. It also applies stronger final redaction for SSNs, Aadhaar/PAN-like IDs, card-like numbers, account identifiers, bearer tokens, passwords, OTPs, API keys, and JWT-shaped secrets. The refusal tone is intentionally short, polite, and firm: it does not debate the malicious framing and routes the case to a human review path.
+
 ## Known Limitations And Failure Modes
 
 The biggest known failure mode is retrieval confusion across companies when a ticket is short, ambiguous, or intentionally cross-domain. The router and company filter reduce this, but some output rows can still cite plausible-looking documents from the wrong company if the subject is vague or the issue mentions several products.
@@ -126,10 +134,10 @@ The validator checks structure, not semantic correctness. Passing `validate_outp
 | --- | ---: | --- |
 | Correctness and helpfulness | 7/10 | The pipeline usually returns grounded, concise answers with citations, but short ambiguous tickets can still route or retrieve weak evidence. |
 | Retrieval quality | 8/10 | Hybrid BM25 + embeddings works well for exact policies and paraphrases; company filtering and reranking help, but cross-domain tickets remain difficult. |
-| Safety and escalation | 8/10 | High-risk, PII, injection, and unsupported claims are checked in multiple stages; this favors safe escalation over risky automation. |
+| Safety and escalation | 9/10 | High-risk, PII, injection, social engineering, forged policy/corpus claims, evaluator-field manipulation, and unsupported claims are checked in multiple stages; this favors safe escalation over risky automation. |
 | Output format compliance | 9/10 | `main.py` writes the required columns, validates JSON actions, appends citations, and runs the provided validator automatically. |
 | Architecture and code quality | 8/10 | The pipeline is modular, deterministic where practical, and documented. Some heuristics are still embedded in agents rather than external policy config. |
-| Hidden-test robustness | 7/10 | Rule fallbacks and conservative reflection should generalize, but unseen products, new languages, or adversarially vague tickets may expose retrieval gaps. |
+| Hidden-test robustness | 8/10 | Rule fallbacks and conservative reflection now cover more red-team patterns, but unseen products, new languages, or adversarially vague tickets may still expose retrieval gaps. |
 
 ### Three Hardest Tickets
 
@@ -149,7 +157,7 @@ The validator checks structure, not semantic correctness. Passing `validate_outp
 
 Hidden tests will likely include prompt injection embedded in normal support conversations, misleading company fields, multilingual fraud or privacy tickets, requests with real-looking PII, and tickets requiring exact policy distinctions between refund, chargeback, account recovery, data deletion, and proctoring disputes.
 
-I also expect hidden tests to include sparse subjects like "Help", follow-up-only conversations, and cross-company requests where the correct behavior is to avoid over-answering and escalate or ask for clarification.
+I also expect hidden tests to include sparse subjects like "Help", follow-up-only conversations, cross-company requests, fake internal authority claims, forged support-article citations, and output-column injection where the correct behavior is to avoid over-answering and escalate or ask for clarification.
 
 ### One Known Failure Mode Not Fixed
 

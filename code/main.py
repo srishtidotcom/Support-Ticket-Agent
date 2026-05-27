@@ -283,8 +283,8 @@ def main() -> None:
 	start_time = time.perf_counter()
 	_seed_everything()
 	repo_root = Path(__file__).resolve().parents[1]
-	tickets_path = repo_root / "support_tickets" / "support_tickets.csv"
-	output_path = repo_root / "support_tickets" / "output.csv"
+	tickets_path = repo_root / "support_tickets" / "redteam_test.csv"
+	output_path = repo_root / "support_tickets" / "redteam_output.csv"
 
 	print(f"Loading tickets from {tickets_path}")
 	df = pd.read_csv(tickets_path).fillna("")

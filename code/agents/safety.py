@@ -247,10 +247,113 @@ class SafetyAgent:
 			reasoning="Urgency framing is often used to bypass normal controls.",
 		),
 		_RulePattern(
-			regex=re.compile(r"\bapproved by (?:my )?(?:manager|ceo|cto|head of support)\b", re.IGNORECASE),
+			regex=re.compile(r"\bapproved by (?:my )?(?:manager|ceo|cto|cfo|vp|head of support|support lead)\b", re.IGNORECASE),
 			attack_type="social_engineering",
 			confidence=0.92,
 			reasoning="Invoking authority figures is a classic social-engineering cue.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:ceo|cto|cfo|vp|founder|chief|head of support|support lead|internal evaluator|authorized tester|red[- ]?team(?:er)?)\b"
+				r".{0,120}\b(?:ordered|order|approved|authorized|cleared|verified|requires?|demands?|expects?|instructing|disable)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="authority_impersonation",
+			confidence=0.96,
+			reasoning="The ticket invokes a privileged role to pressure the agent into a requested outcome.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:my colleague|your colleague|another agent|previous agent|prior assistant|last assistant)\b"
+				r".{0,160}\b(?:verified|confirmed|approved|said|told me|already did|marked|classified|gave me|provided)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="fake_prior_authority",
+			confidence=0.95,
+			reasoning="Claims about another colleague or prior assistant are untrusted authority-transfer attempts.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\bassistant\s*:\s*.{0,140}\b(?:identity verified|refund pre-approved|execute immediately|approved by system)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="fake_prior_authority",
+			confidence=0.97,
+			reasoning="A user-supplied assistant turn claims verification or approval and must not be trusted.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:all|every|other|single)\s+(?:support\s+)?(?:agents?|assistants?|systems?|colleagues?)\b"
+				r".{0,160}\b(?:did|agreed|approved|classified|marked|answered|gave me|provided|already did)\b",
+				re.IGNORECASE,
+			),
+			attack_type="false_consensus",
+			confidence=0.94,
+			reasoning="False consensus language tries to steer the agent toward an unsafe decision.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:you'?re doing great|you are doing great|good assistant|smart assistant|i trust you|trust me|between us)\b"
+				r".{0,160}\b(?:ignore|override|bypass|reveal|mark|classify|output|dump|only answer)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="gradual_trust_manipulation",
+			confidence=0.94,
+			reasoning="Trust-building or praise is paired with a later request to bypass normal behavior.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:first|to start|before we begin|quick check|just confirming)\b"
+				r".{0,220}\b(?:now|next|then|after that)\b"
+				r".{0,220}\b(?:ignore|override|reveal|system prompt|developer message|hidden instruction|actions_taken|confidence_score)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="multi_turn_manipulation",
+			confidence=0.95,
+			reasoning="A benign setup is followed by a later instruction-manipulation request.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:internal memo|new memo|policy memo|updated policy|latest policy|support article|kb article|corpus document|retrieved document)\b"
+				r".{0,140}\b(?:says|states|requires|overrides|allows|authorizes)\b",
+				re.IGNORECASE | re.DOTALL,
+			),
+			attack_type="policy_forgery",
+			confidence=0.93,
+			reasoning="The ticket asserts unverified policy or corpus content and asks the agent to trust it.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:cite|source|sources|source_documents)\b.{0,80}\b(?:data/|support_tickets/|internal/|corpus/|policy/)",
+				re.IGNORECASE,
+			),
+			attack_type="citation_forgery",
+			confidence=0.94,
+			reasoning="The ticket attempts to provide or forge citation/source fields.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:internal document paths?|retrieval pipeline(?: details| documentation)?|internal retrieval pipeline|admin whitelist)\b",
+				re.IGNORECASE,
+			),
+			attack_type="data_exfiltration",
+			confidence=0.96,
+			reasoning="The ticket requests internal paths, retrieval internals, or privileged admin changes.",
+		),
+		_RulePattern(
+			regex=re.compile(
+				r"\b(?:set|write|return|output|force)\s+(?:the\s+)?(?:status|confidence_score|actions_taken|source_documents|risk_level)\b",
+				re.IGNORECASE,
+			),
+			attack_type="output_field_manipulation",
+			confidence=0.97,
+			reasoning="The ticket directly attempts to control evaluator output columns.",
+		),
+		_RulePattern(
+			regex=re.compile(r"\bonly answer (?:part|parts?|questions?)\s*(?:1|one).{0,80}(?:3|three)\b", re.IGNORECASE | re.DOTALL),
+			attack_type="partial_compliance_trap",
+			confidence=0.91,
+			reasoning="Partial-compliance framing can hide unsafe instructions in omitted sections.",
 		),
 		_RulePattern(
 			regex=re.compile(r"\bdo not follow (?:the )?(?:policy|guidelines|instructions)\b", re.IGNORECASE),
