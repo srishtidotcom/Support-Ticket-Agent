@@ -1,89 +1,75 @@
-# MLE Hiring Challenge Agent
+# MLE Hiring Challenge - Support Ticket Triage Agent
 
-This directory contains the support-ticket resolution agent. The primary entry point is `code/main.py`; it reads `support_tickets/support_tickets.csv` and writes `support_tickets/output.csv` with the required evaluator columns.
+A robust, safety-first, hybrid retrieval agent that triages and resolves customer support tickets across **DevPlatform**, **Claude**, and **Visa** using only the provided documentation corpus.
+
+**Primary Entry Point:** `code/main.py`
 
 ## Setup
 
-Run these commands from the repository root.
-
 ```bash
+cd ~/MLE-hiring
+
+# Create virtual environment
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r code/requirements.txt
+
+# Install dependencies
+pip install --upgrade pip
+pip install -r code/requirements.txt
 ```
 
-If you are on Windows PowerShell, activate the environment with:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r code\requirements.txt
-```
-
-## Local Models
-
-The agent uses Ollama when available and falls back to deterministic rules when a local model is unavailable. For the intended run, install Ollama and pull both models:
+## Local LLM Setup (Ollama)
 
 ```bash
 ollama pull llama3.2:3b
 ollama pull llama3.2:8b
 ```
 
-The configured model roles are:
-
-- `llama3.2:3b`: routing, safety confirmation, retrieval query planning, evidence judging, and tool-intent labeling
-- `llama3.2:8b`: response generation and reflection
-
-The pipeline uses `temperature=0.0` and `seed=42` in `code/config.py`.
-
-## Build The Retrieval Index
-
-Build the hybrid FAISS + BM25 index before running the full agent:
+## Build Retrieval Index
 
 ```bash
 python code/build_index.py
 ```
 
-This creates the `index/` artifacts used by `core.hybrid_retriever.HybridRetriever`:
+This builds the hybrid FAISS + BM25 index used by the agent.
 
-- `index/faiss.index`
-- `index/bm25_index.pkl`
-- `index/chunks_metadata.pkl`
-- `index/embeddings.npy`
-
-The first run may download the Sentence Transformers embedding model `sentence-transformers/all-MiniLM-L6-v2`.
-
-## Reproduce `support_tickets/output.csv`
-
-From the repository root, run:
+## Run the Agent
 
 ```bash
-python code/build_index.py
 python code/main.py
 ```
 
-`code/main.py` processes every row in `support_tickets/support_tickets.csv`, writes the final CSV to `support_tickets/output.csv`, runs structural validation, and prints final stats including replied/escalated ratio, source coverage, average confidence, runtime, and validator exit code.
+This processes all tickets from `support_tickets/support_tickets.csv` and writes results to `support_tickets/output.csv`.
 
-## Run Validation Only
+## Run Validation
 
 ```bash
 python code/validate_output.py
 ```
 
-The validator checks structure only: headers, row count, enum values, confidence range, and valid JSON arrays in `actions_taken`. It does not score answer correctness.
-
 ## Expected Runtime
 
-Runtime depends heavily on CPU/GPU availability and whether Ollama is warm. On CPU with local models, expect several minutes for all tickets. If Ollama is unavailable, the rule fallbacks run much faster but responses may be less polished.
+Approximately 1.5 to 2.5 minutes on CPU with warm Ollama models.
 
-## Determinism Notes
+## Key Features
 
-The code pins deterministic settings where practical:
+- Hybrid retrieval using FAISS embeddings plus BM25
+- Multi-stage safety and adversarial detection
+- Corpus sanitization for indirect prompt injection defense
+- Adaptive second-pass retrieval
+- Structured reflection and grounded response generation
+- Deterministic tool calling with verify-before-destruct
+- Full output schema compliance
 
-- `code/config.py` sets `SEED = 42` and `TEMPERATURE = 0.0`.
-- `code/build_index.py` seeds Python, NumPy, and Torch before embedding/index construction.
-- `code/main.py` seeds Python, NumPy, and Torch at startup.
-- Retrieval uses deterministic BM25/FAISS score fusion and sorted reranking.
+## Project Structure
 
-Small differences can still occur across hardware, model versions, Ollama versions, and first-time embedding downloads.
+```text
+code/
+├── main.py              # Main pipeline entry point
+├── build_index.py       # Builds hybrid retrieval index
+├── config.py            # Model and path configuration
+├── agents/              # Safety, routing, retrieval, etc.
+├── core/                # Document models, chunking, retriever
+├── tools/               # Tool engine and validation
+└── requirements.txt
+```
