@@ -1,0 +1,1090 @@
+commit 1e68f276aca3b19219d76126d0b02fb3a8aee150
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Wed May 27 21:10:28 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Wed May 27 21:10:28 2026 +0000
+
+    documentation update
+
+ code/ARCHITECTURE.md | 222 +++++++++++++++++++++++++++++++++++++--------------
+ code/README.md       |  94 ++++++++++------------
+ 2 files changed, 201 insertions(+), 115 deletions(-)
+
+commit 94c6d0bfff7d097e8c0b16a5b2d405db0c902dcc
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Wed May 27 20:09:27 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Wed May 27 20:09:27 2026 +0000
+
+    corpus sanitizer, second pass retriever, safety agent updates
+
+ code/ARCHITECTURE.md               |  44 +++++++--
+ code/agents/retriever.py           | 129 +++++++++++++++++++++++++-
+ code/agents/safety.py              |  23 ++++-
+ code/main.py                       |  38 +++++++-
+ code/tools/tool_engine.py          |  70 +++++++++++++--
+ support_tickets/output.csv         |  40 ++++-----
+ support_tickets/output_run1.csv    | 180 +++++++++++++++++++++++++++++++++++++
+ support_tickets/output_run2.csv    | 180 +++++++++++++++++++++++++++++++++++++
+ support_tickets/redteam_output.csv |  40 ++++-----
+ 9 files changed, 681 insertions(+), 63 deletions(-)
+
+commit ac830c301128ee3a96f536be23c3f108719e5ba6
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Wed May 27 19:22:26 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Wed May 27 19:22:26 2026 +0000
+
+    deleted empty touched files
+
+ code/agents/validator.py | 0
+ code/core/state.py       | 0
+ code/core/utils.py       | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 79cba94ac6176659b1337cc0f5f5f9385414597b
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Wed May 27 19:13:43 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Wed May 27 19:13:43 2026 +0000
+
+    red team tests, adversarial robustness enhancements
+
+ code/ARCHITECTURE.md               |  14 ++-
+ code/agents/reflector.py           | 163 ++++++++++++++++++++++++++++++++-
+ code/agents/resolver.py            |  42 ++++++++-
+ code/agents/safety.py              | 105 +++++++++++++++++++++-
+ code/main.py                       |   4 +-
+ support_tickets/output1.csv        | 180 +++++++++++++++++++++++++++++++++++++
+ support_tickets/output2.csv        | 180 +++++++++++++++++++++++++++++++++++++
+ support_tickets/redteam_output.csv | 133 +++++++++++++++++++++++++++
+ support_tickets/redteam_test.csv   |  67 ++++++++++++++
+ 9 files changed, 877 insertions(+), 11 deletions(-)
+
+commit da119b9f60bec628460396506891d509afc73935
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Tue May 26 10:53:26 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Tue May 26 10:53:26 2026 +0000
+
+    final polish and submission documentation
+
+ code/ARCHITECTURE.md | 156 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ code/README.md       |  89 +++++++++++++++++++++++++++++
+ code/main.py         |  25 +++++++++
+ 3 files changed, 270 insertions(+)
+
+commit 2c2780277df1e6dcfcc71a2522270978d14da324
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Tue May 26 10:42:09 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Tue May 26 10:42:09 2026 +0000
+
+    reflection, resolver, output, and validation
+
+ code/agents/reflector.py   | 158 ++++++++++++++++++++++++---
+ code/agents/resolver.py    |  54 ++++++---
+ code/main.py               |  90 +++++++++++++--
+ support_tickets/output.csv | 267 ++++++++++++++++++++++++++++++---------------
+ 4 files changed, 441 insertions(+), 128 deletions(-)
+
+commit 046fcfa765065faff99f65c54896efd628336d84
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Tue May 26 10:15:25 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Tue May 26 10:15:25 2026 +0000
+
+    tool engine, resolution agent, and reflection agent
+
+ code/agents/__init__.py   |  14 +-
+ code/agents/reflector.py  | 292 ++++++++++++++++++++++++++++++++++++++++++
+ code/agents/resolver.py   | 253 ++++++++++++++++++++++++++++++++++++
+ code/main.py              | 107 ++++++++++++++--
+ code/tools/tool_engine.py | 320 ++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 972 insertions(+), 14 deletions(-)
+
+commit 8b394b03dc19acbb9fbae3e5d7d00279de6a8a87
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Tue May 26 10:01:52 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Tue May 26 10:01:52 2026 +0000
+
+    proper hybrid retrieval loading and chunk retrieval (thank god)
+
+ code/agents/evidence_judge.py |  25 +++---
+ code/agents/retriever.py      |  23 +++++-
+ code/build_index.py           |   4 +-
+ code/core/hybrid_retriever.py |  52 +++++++++---
+ code/main.py                  |  28 +++++--
+ support_tickets/output.csv    | 178 +++++++++++++++++++++---------------------
+ 6 files changed, 188 insertions(+), 122 deletions(-)
+
+commit 3b6dafb69a3a332943be1dc8473af74d9645d1ed
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Tue May 26 09:38:27 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Tue May 26 09:38:27 2026 +0000
+
+    fix 4: Update chunker and embedder, and add new index files
+
+ code/core/chunker.py       |  15 ++--
+ code/core/embedder.py      |  53 +++++++++++---
+ index/chunks_metadata.pkl  | Bin 0 -> 7811782 bytes
+ index/embeddings.npy       | Bin 0 -> 29118080 bytes
+ index/faiss.index          | Bin 0 -> 29117997 bytes
+ support_tickets/output.csv | 178 ++++++++++++++++++++++-----------------------
+ 6 files changed, 142 insertions(+), 104 deletions(-)
+
+commit 17c04c5439bc3a641edfc5041332d7b3b4a6c68a
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 16:17:21 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 16:17:21 2026 +0000
+
+    fix 3: typo in import
+
+ code/core/chunker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6998bcc5754cd8eb299bc3b7a36affc1eb56744b
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 15:37:29 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 15:37:29 2026 +0000
+
+    hybrid retrieval, evidence judge, and agent management
+
+ code/agents/__init__.py       |   4 +-
+ code/agents/evidence_judge.py | 274 ++++++++++++++++++++++++++++++++++++++
+ code/agents/retriever.py      | 296 ++++++++++++++++++++++++++++++++++++++++++
+ code/core/hybrid_retriever.py | 227 ++++++++++++++++++++++++++++++++
+ code/main.py                  |  54 ++++++--
+ 5 files changed, 844 insertions(+), 11 deletions(-)
+
+commit 7cefdb9ae8bfa906db60f6213b477873722d49a1
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 13:59:20 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 13:59:20 2026 +0000
+
+    fix 2: overhaul of risk assessment logic for better escalation precision
+
+ code/agents/router.py      | 162 ++++++++++++++++++++++-------------------
+ support_tickets/output.csv | 176 ++++++++++++++++++++++-----------------------
+ 2 files changed, 175 insertions(+), 163 deletions(-)
+
+commit 8298a27df0f052a61012d1f0832b750c1deada60
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 13:49:41 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 13:49:41 2026 +0000
+
+    fix 1: better risk classification and status decision logic
+
+ code/agents/router.py      |  88 +++++++++++++++++++---
+ code/main.py               |  29 +++++++-
+ support_tickets/output.csv | 178 ++++++++++++++++++++++-----------------------
+ 3 files changed, 190 insertions(+), 105 deletions(-)
+
+commit 8bdee67efb4fac1b2a8eb15baa9d8e676c950864
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 13:40:42 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 13:40:42 2026 +0000
+
+    test: agents instantiate correctly
+
+ support_tickets/output.csv | 90 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
+
+commit 461d01734b9750e7516eb2e1ea137c9913ac1f6b
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 13:28:53 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 13:28:53 2026 +0000
+
+    fixing local safety and router layer
+
+ code/agents/router.py |  4 ++--
+ code/main.py          | 63 ++++++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 52 insertions(+), 15 deletions(-)
+
+commit 8b1f83d4aec583f4cc81ef499c4e5d50d5180b00
+Author:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+AuthorDate: Mon May 25 13:12:03 2026 +0000
+Commit:     srishtidotcom <174759109+srishtidotcom@users.noreply.github.com>
+CommitDate: Mon May 25 13:12:03 2026 +0000
+
+    corpus, infra, safety, routing, locally hosted
+
+ code/ARCHITECTURE.md          |   0
+ code/README.md                |   0
+ code/agents/__init__.py       |   6 +
+ code/agents/evidence_judge.py |   0
+ code/agents/resolver.py       |   0
+ code/agents/retriever.py      |   0
+ code/agents/router.py         | 323 ++++++++++++++++++++++++++++++
+ code/agents/safety.py         | 445 ++++++++++++++++++++++++++++++++++++++++++
+ code/agents/validator.py      |   0
+ code/build_index.py           |  99 ++++++++++
+ code/config.py                |  12 ++
+ code/core/chunker.py          |  55 ++++++
+ code/core/corpus_loader.py    |  76 ++++++++
+ code/core/document.py         |  27 +++
+ code/core/embedder.py         |  49 +++++
+ code/core/models.py           |  26 +++
+ code/core/state.py            |   0
+ code/core/utils.py            |   0
+ code/main.py                  |  98 ++++++++++
+ code/requirements.txt         |  11 ++
+ code/tools/tool_engine.py     |   0
+ 21 files changed, 1227 insertions(+)
+
+commit db4ccc07c4388b6e4030fcec6694e79f0264aae8
+Author:     Rithvik <rithvikbng@gmail.com>
+AuthorDate: Sun May 24 16:32:13 2026 +0530
+Commit:     Rithvik <rithvikbng@gmail.com>
+CommitDate: Sun May 24 16:32:13 2026 +0530
+
+    Remove results announced date
+
+ AGENTS.md | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit e162ec0985af19a21b5e8675d24ee85ff01bf159
+Author:     Rithvik <rithvikbng@gmail.com>
+AuthorDate: Sun May 24 16:31:02 2026 +0530
+Commit:     Rithvik <rithvikbng@gmail.com>
+CommitDate: Sun May 24 16:31:02 2026 +0530
+
+    Update deadline to 1 week and replace AI judge with 1-on-1 interview
+
+ AGENTS.md               | 12 ++++++------
+ README.md               | 16 ++++++++--------
+ evalutation_criteria.md | 24 ++++++++++--------------
+ 3 files changed, 24 insertions(+), 28 deletions(-)
+
+commit 99a0e0ef3d8ca131d352ae06045458c27f67a081
+Author:     Rithvik <rithvikbng@gmail.com>
+AuthorDate: Sun May 24 16:26:23 2026 +0530
+Commit:     Rithvik <rithvikbng@gmail.com>
+CommitDate: Sun May 24 16:26:23 2026 +0530
+
+    Update submission instructions with Google Forms link
+
+ AGENTS.md | 2 +-
+ README.md | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit ec78098a219a0e8221e8580d0dbdb4711b989953
+Author:     Rithvik <rithvikbng@gmail.com>
+AuthorDate: Sun May 24 16:13:10 2026 +0530
+Commit:     Rithvik <rithvikbng@gmail.com>
+CommitDate: Sun May 24 16:13:10 2026 +0530
+
+    Initial commit: MLE Hiring Challenge Template (10/10 Difficulty)
+
+ .env.example                                       |   12 +
+ .gitignore                                         |   26 +
+ AGENTS.md                                          |  258 +++
+ CLAUDE.md                                          |    1 +
+ README.md                                          |  170 ++
+ code/main.py                                       |    0
+ code/validate_output.py                            |  170 ++
+ data/api_specs/internal_tools.json                 |  118 ++
+ ...azon-and-anthropic-s-strategic-collaboration.md |   22 +
+ ...-find-claude-in-amazon-bedrock-documentation.md |   22 +
+ ...re-claude-models-available-in-amazon-bedrock.md |   22 +
+ .../7996918-what-is-amazon-bedrock.md              |   38 +
+ ...-do-i-get-access-to-claude-in-amazon-bedrock.md |   22 +
+ ...-do-i-contact-for-customer-support-inquiries.md |   30 +
+ ...6-how-can-i-delete-my-claude-console-account.md |   62 +
+ ...how-large-is-the-claude-api-s-context-window.md |   25 +
+ ...-can-i-use-the-claude-api-for-individual-use.md |   23 +
+ ...-have-a-claude-account-and-a-console-account.md |   23 +
+ ...at-is-the-external-researcher-access-program.md |  103 +
+ .../7996853-introduction-to-prompt-design.md       |   25 +
+ ...7-my-prompt-isn-t-giving-me-a-helpful-answer.md |   28 +
+ ...-claude-s-response-to-my-prompt-is-too-brief.md |   23 +
+ ...-can-i-advance-my-claude-api-usage-to-tier-2.md |   32 +
+ ...-i-alter-my-prompts-when-switching-to-claude.md |   23 +
+ .../8241216-violating-anthropic-s-usage-policy.md  |   31 +
+ ...r-approach-to-rate-limits-for-the-claude-api.md |   35 +
+ ...if-i-suspect-my-api-key-has-been-compromised.md |   25 +
+ ...-practices-keeping-your-keys-safe-and-secure.md |  123 ++
+ ...oices-for-my-claude-api-and-console-payments.md |   36 +
+ ...ow-can-i-learn-more-about-claude-api-pricing.md |   23 +
+ ...4526-how-will-i-be-billed-for-claude-api-use.md |   29 +
+ ...8977456-how-do-i-pay-for-my-claude-api-usage.md |   42 +
+ ...-claude-console-organization-s-tax-or-vat-id.md |   41 +
+ ...ing-an-api-connection-error-how-can-i-fix-it.md |   29 +
+ ...w-can-i-check-connectivity-to-the-claude-api.md |   27 +
+ ...4490-where-can-i-find-your-api-documentation.md |   23 +
+ ...ed-my-rate-limit-is-too-low-what-should-i-do.md |   27 +
+ ...n-i-go-for-claude-api-support-and-assistance.md |   29 +
+ ...0186004-claude-console-roles-and-permissions.md |   77 +
+ ...age-user-feedback-settings-on-claude-console.md |   32 +
+ ...722177-sharing-prompts-in-the-claude-console.md |   77 +
+ ...174108-about-the-development-partner-program.md |   67 +
+ .../11199177-anthropic-s-ai-for-science-program.md |   86 +
+ .../13162029-google-sheets-add-on.md               |  171 ++
+ ...customizing-your-console-appearance-settings.md |   29 +
+ .../13371040-logging-in-to-your-console-account.md |   89 +
+ ...43764-inviting-members-to-the-claude-console.md |   45 +
+ .../8114521-how-can-i-access-the-claude-api.md     |   27 +
+ ...nization-how-do-i-start-using-the-claude-api.md |   27 +
+ .../8116515-where-is-the-claude-api-supported.md   |   23 +
+ .../8606378-how-do-i-use-the-workbench.md          |   53 +
+ ...st-and-usage-reporting-in-the-claude-console.md |   94 +
+ ...nd-managing-workspaces-in-the-claude-console.md |  132 ++
+ ...separately-to-use-the-claude-api-and-console.md |   32 +
+ ...1145838-using-claude-code-with-your-max-plan.md |  126 ++
+ ...laude-code-with-your-team-or-enterprise-plan.md |   79 +
+ ...05-automated-security-reviews-in-claude-code.md |  107 +
+ .../11940350-claude-code-model-configuration.md    |   94 +
+ .../12157520-claude-code-usage-analytics.md        |  135 ++
+ ...api-key-environment-variables-in-claude-code.md |  150 ++
+ .../claude/claude-code/12386420-claude-code-faq.md |  105 +
+ .../claude-code/12618689-claude-code-on-the-web.md |  121 ++
+ .../14233555-set-up-code-review-for-claude-code.md |  175 ++
+ .../14552382-your-first-day-in-claude-code.md      |  133 ++
+ ...-claude-code-installation-and-authentication.md |   67 +
+ ...52983-models-usage-and-limits-in-claude-code.md |  122 ++
+ ...-claude-context-claude-md-and-better-prompts.md |  127 ++
+ .../14553413-claude-code-cheatsheet.md             |   39 +
+ ...53517-claude-code-common-developer-use-cases.md |  175 ++
+ .../14554000-claude-code-power-user-tips.md        |  409 ++++
+ .../launch-guides/14554922-claude-code-user-faq.md |   55 +
+ .../14555399-claude-code-champion-kit.md           |  131 ++
+ .../14555877-claude-code-communications-kit.md     |  147 ++
+ ...ted-with-local-mcp-servers-on-claude-desktop.md |  140 ++
+ ...ng-and-using-the-desktop-extension-allowlist.md |   92 +
+ ...se-grade-mcp-servers-with-desktop-extensions.md |   57 +
+ .../general/10065433-install-claude-desktop.md     |   76 +
+ .../12611117-deploy-claude-desktop-for-macos.md    |   57 +
+ .../general/12622667-enterprise-configuration.md   |   51 +
+ .../12622703-deploy-claude-desktop-for-windows.md  |   81 +
+ ...8-use-quick-entry-with-claude-desktop-on-mac.md |  155 ++
+ ...ucation-at-your-university-for-owners-admins.md |   83 +
+ ...sing-claude-for-education-at-your-university.md |  145 ++
+ ...t-up-the-claude-lti-in-canvas-by-instructure.md |   64 +
+ ...-the-data-of-my-claude-for-education-account.md |   55 +
+ .../claude-lti-integration-setup.md                |   85 +
+ ...03590-get-started-with-claude-for-government.md |   69 +
+ .../claude-for-government/14503613-sso-login.md    |  101 +
+ ...4503643-set-up-scim-in-claude-for-government.md |  103 +
+ ...ization-preferences-in-claude-for-government.md |   76 +
+ .../14503689-mcp-connectors.md                     |   99 +
+ .../14503703-mcp-individual-connectors.md          |   52 +
+ .../14503775-mcp-web-search.md                     |   93 +
+ ...-model-availability-in-claude-for-government.md |   56 +
+ ...assification-banner-in-claude-for-government.md |   49 +
+ ...7-getting-started-with-claude-for-nonprofits.md |  212 ++
+ ...3221-using-the-blackbaud-connector-in-claude.md |  147 ++
+ ...23227-using-the-benevity-connector-in-claude.md |  133 ++
+ ...2923235-using-the-candid-connector-in-claude.md |  379 ++++
+ ...profits-partnership-success-guide-for-admins.md |   98 +
+ ...r-nonprofits-partnership-guide-for-all-users.md |   79 +
+ .../12012173-get-started-with-claude-in-chrome.md  |  167 ++
+ .../12902405-claude-in-chrome-troubleshooting.md   |   90 +
+ .../12902428-using-claude-in-chrome-safely.md      |  152 ++
+ .../12902446-claude-in-chrome-permissions-guide.md |  141 ++
+ .../13065128-claude-in-chrome-admin-controls.md    |   96 +
+ .../10534883-using-the-claude-widget-on-android.md |   60 +
+ .../11825394-how-to-update-claude-for-android.md   |   29 +
+ .../11869629-using-claude-with-android-apps.md     |  251 +++
+ .../9612887-how-do-i-install-claude-for-android.md |   23 +
+ ...12889-how-can-i-uninstall-claude-for-android.md |   25 +
+ ...sign-up-for-claude-pro-on-claude-for-android.md |   23 +
+ ...laude-pro-subscription-on-claude-for-android.md |   27 +
+ ...-i-find-claude-for-android-in-the-play-store.md |   23 +
+ ...12904-what-versions-of-android-are-supported.md |   23 +
+ ...ude-app-intents-shortcuts-and-widgets-on-ios.md |  127 ++
+ ...lock-screen-control-center-and-action-button.md |   56 +
+ .../11825384-how-to-update-claude-for-ios.md       |   28 +
+ .../11869619-using-claude-with-ios-apps.md         |  234 +++
+ ...e-pro-subscription-on-the-claude-app-for-ios.md |   27 +
+ .../9266462-installing-claude-for-ios.md           |   39 +
+ ...-up-for-claude-pro-on-the-claude-app-for-ios.md |   23 +
+ .../10065434-using-dictation-on-claude-mobile.md   |   68 +
+ .../general/11101966-using-voice-mode.md           |  165 ++
+ ...9-minimum-age-requirement-access-restriction.md |   38 +
+ data/claude/claude/12138966-release-notes.md       |  414 ++++
+ ...0342-how-do-i-log-out-of-all-active-sessions.md |   57 +
+ ...on-or-promotion-not-available-for-my-account.md |   27 +
+ .../11408405-claude-4-invite-contest.md            |  109 ++
+ ...ing-your-billing-address-and-tax-calculation.md |   50 +
+ ...how-to-get-support-for-claude-for-government.md |   32 +
+ .../13124001-managing-your-active-sessions.md      |   70 +
+ ...163631-configuring-session-security-settings.md |   70 +
+ .../13189465-logging-in-to-your-claude-account.md  |  118 ++
+ .../13756069-public-sector-faqs.md                 |  150 ++
+ ...g-consumption-tax-jct-for-japanese-customers.md |   55 +
+ ...ts-with-claude-who-can-view-my-conversations.md |   51 +
+ ...the-email-address-associated-with-my-account.md |   48 +
+ .../9015913-how-to-get-support.md                  |  124 ++
+ .../9028421-how-can-i-delete-my-claude-account.md  |   41 +
+ .../9450526-how-can-i-export-my-claude-data.md     |   46 +
+ .../10593882-sharing-and-unsharing-chats.md        |   66 +
+ ...arch-and-memory-to-build-on-previous-context.md |  180 ++
+ .../12260368-using-incognito-chats.md              |   79 +
+ ...24-how-can-i-delete-or-rename-a-conversation.md |   41 +
+ ...ndle-mathematical-equations-and-calculations.md |   23 +
+ .../10574485-using-extended-thinking.md            |   85 +
+ .../10684626-enabling-and-using-web-search.md      |  126 ++
+ .../11088861-using-research-on-claude.md           |   55 +
+ ...se-web-search-extended-thinking-and-research.md |   51 +
+ ...rieval-augmented-generation-rag-for-projects.md |  103 +
+ .../12111783-create-and-edit-files-with-claude.md  |  299 +++
+ ...87-import-and-export-your-memory-from-claude.md |   60 +
+ .../12293051-using-claude-in-xcode.md              |   55 +
+ .../12512176-what-are-skills.md                    |  108 +
+ .../12512180-use-skills-in-claude.md               |  234 +++
+ .../12512198-how-to-create-custom-skills.md        |  172 ++
+ .../12650343-use-claude-for-excel.md               |  460 +++++
+ .../12864745-using-claude-in-microsoft-foundry.md  |   33 +
+ .../13345190-get-started-with-claude-cowork.md     |  263 +++
+ .../13364135-use-claude-cowork-safely.md           |  139 ++
+ .../13521390-use-claude-for-powerpoint.md          |  295 +++
+ .../13641943-visual-and-interactive-content.md     |  119 ++
+ .../13837440-use-plugins-in-claude-cowork.md       |   95 +
+ ...nstall-financial-services-plugins-for-cowork.md |   94 +
+ ...87-schedule-recurring-tasks-in-claude-cowork.md |   92 +
+ ...892150-work-across-excel-powerpoint-and-word.md |  124 ++
+ ...werpoint-and-word-with-third-party-platforms.md |  336 ++++
+ ...-assign-tasks-from-anywhere-in-claude-cowork.md |  132 ++
+ .../13979539-custom-visuals-in-chat.md             |   72 +
+ ...ze-your-tasks-with-projects-in-claude-cowork.md |  106 +
+ ...28542-let-claude-use-your-computer-in-cowork.md |  136 ++
+ ...ills-connectors-and-plugins-in-one-directory.md |   56 +
+ .../14465370-use-claude-for-word.md                |  313 +++
+ .../14479591-use-dictation-in-office-agents.md     |   42 +
+ ...available-beta-and-research-preview-features.md |   57 +
+ ...7-set-up-your-design-system-in-claude-design.md |   91 +
+ ...gn-admin-guide-for-team-and-enterprise-plans.md |  174 ++
+ .../14604416-get-started-with-claude-design.md     |  153 ++
+ .../14661296-claude-security.md                    |   59 +
+ ...claude-design-subscription-usage-and-pricing.md |   63 +
+ .../8241126-uploading-files-to-claude.md           |  101 +
+ .../9002504-can-claude-produce-images.md           |   27 +
+ ...310-what-are-artifacts-and-how-do-i-use-them.md |  163 ++
+ .../9517075-what-are-projects.md                   |   70 +
+ .../9547008-publishing-and-sharing-artifacts.md    |  157 ++
+ .../projects-troubleshooting-guide.md              |   48 +
+ .../11049762-choosing-a-claude-plan.md             |   28 +
+ .../12938627-how-to-gift-a-claude-subscription.md  |   63 +
+ ...695-how-to-redeem-a-claude-gift-subscription.md |   67 +
+ ...45-what-are-some-things-i-can-use-claude-for.md |   31 +
+ ...7-what-interfaces-can-i-use-to-access-claude.md |   29 +
+ .../8114491-get-started-with-claude.md             |  100 +
+ ...494-how-up-to-date-is-claude-s-training-data.md |   35 +
+ .../8287232-verifying-your-phone-number.md         |   71 +
+ .../8461763-where-can-i-access-claude.md           |  194 ++
+ .../10181068-configure-and-use-styles.md           |   93 +
+ ...erstanding-claude-s-personalization-features.md |   82 +
+ ...how-to-use-claude-in-your-preferred-language.md |   48 +
+ ...nge-the-model-version-that-i-m-chatting-with.md |   29 +
+ ...8887527-customizing-your-appearance-settings.md |   42 +
+ .../12466728-troubleshoot-claude-error-messages.md |   75 +
+ ...ing-to-new-model-personas-after-deprecations.md |   37 +
+ ...-produced-external-documents-what-s-going-on.md |   18 +
+ ...rect-or-misleading-responses-what-s-going-on.md |   33 +
+ ...11647753-how-do-usage-and-length-limits-work.md |   74 +
+ .../14063676-claude-march-2026-usage-promotion.md  |   61 +
+ .../usage-and-limits/14246112-buy-usage-bundles.md |   77 +
+ .../9797557-usage-limit-best-practices.md          |  129 ++
+ ...ild-custom-connectors-via-remote-mcp-servers.md |   24 +
+ .../12922490-remote-mcp-server-submission-guide.md |   24 +
+ .../12922832-local-mcp-server-submission-guide.md  |   24 +
+ ...922929-building-desktop-extensions-with-mcpb.md |   24 +
+ ...rted-with-custom-connectors-using-remote-mcp.md |  181 ++
+ ...e-connectors-to-extend-claude-s-capabilities.md |  185 ++
+ .../11596036-anthropic-connectors-directory-faq.md |   25 +
+ ...25091-when-to-use-desktop-and-web-connectors.md |   51 +
+ .../13145338-anthropic-software-directory-terms.md |   35 +
+ ...13145358-anthropic-software-directory-policy.md |  101 +
+ .../13730515-manage-claude-s-tool-access.md        |   76 +
+ .../10166901-use-google-workspace-connectors.md    |  219 +++
+ .../10167454-using-the-github-integration.md       |   83 +
+ ...1506255-getting-started-with-claude-in-slack.md |  181 ++
+ .../12461605-using-claude-in-slack.md              |  222 +++
+ ...1-enable-and-use-the-microsoft-365-connector.md |  351 ++++
+ ...84923-microsoft-365-connector-security-guide.md |  214 ++
+ ...3454812-use-interactive-connectors-in-claude.md |  126 ++
+ ...single-sign-on-sso-and-jit-scim-provisioning.md |  146 ++
+ .../13132885-set-up-single-sign-on-sso.md          |  151 ++
+ .../13133195-set-up-jit-or-scim-provisioning.md    |  151 ++
+ ...itching-to-a-different-identity-provider-idp.md |   46 +
+ ...scim-sync-works-for-enterprise-organizations.md |  102 +
+ data/claude/index.md                               |  368 ++++
+ ...0-what-certifications-has-anthropic-obtained.md |   31 +
+ ...ut-blocked-by-content-filtering-policy-error.md |   26 +
+ ...her-intellectual-property-how-do-i-report-it.md |   36 +
+ ...arn-more-about-anthropic-s-privacy-practices.md |   22 +
+ ...official-anthropic-marketing-email-addresses.md |   35 +
+ ...ng-blocking-and-removing-content-from-claude.md |   40 +
+ ...3-claude-4-invite-sweepstakes-official-rules.md |   31 +
+ .../11174660-online-safety-contacts.md             |   30 +
+ ...ignated-point-of-contact-for-users-in-the-eu.md |   31 +
+ ...64-can-i-use-my-outputs-to-train-an-ai-model.md |   54 +
+ ...a-concern-australian-dis-standard-compliance.md |   42 +
+ ...d-anthropic-stock-sales-and-investment-scams.md |   61 +
+ ...w-and-sign-your-data-processing-addendum-dpa.md |   26 +
+ ...iate-agreements-baa-for-commercial-customers.md |   42 +
+ ...eb-and-how-can-site-owners-block-the-crawler.md |   49 +
+ .../9190861-terms-of-service-updates.md            |   29 +
+ ...ut-blocked-by-content-filtering-policy-error.md |   26 +
+ .../9264813-consumer-terms-of-service-updates.md   |   26 +
+ ...consumer-terms-of-service-and-privacy-policy.md |   50 +
+ ...g-governmental-requests-for-user-information.md |   26 +
+ .../claude-data-retention-internal-faq.md          |   39 +
+ ...am-i-being-asked-to-verify-my-payment-method.md |   29 +
+ ...8-requesting-a-refund-for-a-paid-claude-plan.md |   52 +
+ ...409-manage-extra-usage-for-paid-claude-plans.md |  155 ++
+ .../13163666-holiday-2025-usage-promotion.md       |   54 +
+ ...-how-do-i-cancel-my-paid-claude-subscription.md |   37 +
+ .../general/8325618-paid-plan-billing-faqs.md      |   66 +
+ ...e-is-the-context-window-on-paid-claude-plans.md |   43 +
+ .../general/9402418-why-was-my-card-declined.md    |   55 +
+ ...9519177-how-can-i-create-and-manage-projects.md |  201 ++
+ .../9529781-examples-of-projects-you-can-create.md |  121 ++
+ ...ate-your-paid-claude-account-s-tax-or-vat-id.md |   48 +
+ .../max-plan/11049741-what-is-the-max-plan.md      |   79 +
+ .../11049752-how-do-i-sign-up-for-the-max-plan.md  |   57 +
+ ...your-pro-plan-from-monthly-to-annual-billing.md |   38 +
+ .../pro-plan/8325606-what-is-the-pro-plan.md       |   76 +
+ .../8325609-how-do-i-sign-up-for-the-pro-plan.md   |   55 +
+ .../11427875-public-vulnerability-reporting.md     |   30 +
+ ...7-using-agents-according-to-our-usage-policy.md |   62 +
+ ...109679-creating-a-new-account-after-deletion.md |   24 +
+ .../12119250-model-safety-bug-bounty-program.md    |   71 +
+ .../13171706-crisis-helpline-support-in-claude.md  |  133 ++
+ .../14328960-identity-verification-on-claude.md    |   97 +
+ ...4604842-real-time-cyber-safeguards-on-claude.md |   61 +
+ ...ng-blocking-and-removing-content-from-claude.md |   40 +
+ .../8106465-our-approach-to-user-safety.md         |   28 +
+ .../8241253-safeguards-warnings-and-appeals.md     |   40 +
+ .../9020328-csam-detection-and-reporting.md        |   26 +
+ .../safeguards/9035075-law-enforcement-requests.md |   38 +
+ .../safeguards/9199617-api-safeguards-tools.md     |   48 +
+ ...-guidelines-for-organizations-serving-minors.md |   43 +
+ .../9528712-exceptions-to-our-usage-policy.md      |   36 +
+ ...edback-settings-on-team-and-enterprise-plans.md |   30 +
+ ...4354-purchase-and-manage-seats-on-team-plans.md |  135 ++
+ ...age-for-team-and-seat-based-enterprise-plans.md |  161 ++
+ ...-manage-members-on-team-and-enterprise-plans.md |  176 ++
+ .../13325567-account-management-faqs.md            |   63 +
+ ...urchase-and-manage-seats-on-enterprise-plans.md |  194 ++
+ ...s-and-group-spend-limits-on-enterprise-plans.md |  126 ++
+ ...-claude-cowork-plugins-for-your-organization.md |  220 +++
+ ...0452-manage-custom-roles-on-enterprise-plans.md |  101 +
+ ...p-role-based-permissions-on-enterprise-plans.md |  301 +++
+ .../14546867-set-organization-preferences.md       |   81 +
+ .../9267276-roles-and-permissions.md               |   56 +
+ ...isable-public-projects-for-your-organization.md |   60 +
+ ...sage-analytics-for-team-and-enterprise-plans.md |  154 ++
+ ...tics-api-access-engagement-and-adoption-data.md |   74 +
+ ...ude-enterprise-analytics-api-reference-guide.md |  203 ++
+ ...om-opentelemetry-collector-for-office-agents.md |  194 ++
+ ...or-claude-cowork-activity-with-opentelemetry.md |   92 +
+ ...26368-how-am-i-billed-for-my-enterprise-plan.md |  155 ++
+ ...our-team-plan-from-monthly-to-annual-billing.md |   30 +
+ .../billing/12997503-team-plan-billing-faqs.md     |   67 +
+ .../9267289-how-is-my-team-plan-bill-calculated.md |   71 +
+ ...l-your-organization-s-team-plan-subscription.md |   25 +
+ ...add-or-update-your-team-plan-s-tax-or-vat-id.md |   46 +
+ .../capabilities/12489464-use-enterprise-search.md |  270 +++
+ ...sion-and-manage-skills-for-your-organization.md |  114 ++
+ ...e-claude-cowork-on-team-and-enterprise-plans.md |  141 ++
+ ...ractive-content-on-team-and-enterprise-plans.md |   35 +
+ ...519189-manage-project-visibility-and-sharing.md |  120 ++
+ ...d-and-join-a-team-or-enterprise-organization.md |   90 +
+ ...3776697-join-an-organization-via-invite-link.md |   74 +
+ ...te-your-organization-from-team-to-enterprise.md |   79 +
+ .../9267247-get-started-with-the-team-plan.md      |   43 +
+ ...hem-to-team-or-enterprise-plan-organizations.md |   48 +
+ .../9266767-what-is-the-team-plan.md               |  110 ++
+ .../9797531-what-is-the-enterprise-plan.md         |  137 ++
+ ...data-retention-controls-for-enterprise-plans.md |   68 +
+ ...moved-from-a-team-or-enterprise-organization.md |   55 +
+ .../13015708-access-the-compliance-api.md          |   39 +
+ ...evel-access-control-with-tenant-restrictions.md |  109 ++
+ ...strict-access-to-claude-with-ip-allowlisting.md |   35 +
+ .../13296973-hipaa-ready-enterprise-plans.md       |   70 +
+ .../13346720-export-your-organization-s-data.md    |   46 +
+ ...372-who-owns-and-manages-the-data-of-my-team.md |   45 +
+ ...hropic-act-as-a-data-processor-or-controller.md |   40 +
+ ...information-that-anthropic-has-on-my-account.md |   23 +
+ ...ta-that-i-sent-via-team-and-enterprise-plans.md |   31 +
+ .../9970975-access-audit-logs.md                   |   39 +
+ .../claude-api-security-compliance-enterprise.md   |   94 +
+ .../visa-emergency-travel-services.md              |   65 +
+ .../devplatform/account-recovery-complete-guide.md |   86 +
+ .../api-reference-deprecated-endpoints.md          |   63 +
+ .../6908366644-introduction-to-chakra.md           |   44 +
+ ...72393759-ashby-chakra-integration-user-guide.md |  121 ++
+ ...135-greenhouse-chakra-integration-user-guide.md |  105 +
+ ...2727476-invite-candidates-to-an-ai-interview.md |   75 +
+ .../6818900787-view-candidate-reports.md           |  125 ++
+ .../8041423965-create-an-ai-interviewer.md         |  130 ++
+ .../8961150967-clone-an-ai-interviewer.md          |   47 +
+ data/devplatform/educational-nonprofit-pricing.md  |   39 +
+ .../3958121708-setting-up-the-event-microsite.md   |  122 ++
+ .../engage/5336874519-view-event-stats.md          |   70 +
+ .../engage/6424218208-hackerrank-engage.md         |  263 +++
+ ...hackerrank-engage---marketing-best-practices.md |  135 ++
+ ...7392770596-getting-candidates-for-your-event.md |  136 ++
+ .../engage/7549509598-create-an-event.md           |   72 +
+ .../7640208607-set-up-the-event-challenge.md       |   70 +
+ ...ur-event-on-a-high-note-with-the-leaderboard.md |   46 +
+ ...2-set-up-the-promotional-emails-or-campaigns.md |   87 +
+ ...5297005851-hackerrank-academy-video-tutorial.md |   35 +
+ .../2652374569-access-candidate-timeline.md        |   51 +
+ ...583642-ensuring-a-great-candidate-experience.md |   92 +
+ .../7220470055-support-for-campus-events.md        |   33 +
+ ...ckerrank%E2%80%99s-solution-engineering-team.md |   51 +
+ .../8616956464-contact-hackerrank-support.md       |   33 +
+ ...ary-2026-deprecations-and-experience-changes.md |   97 +
+ .../evaluation-guides/1216495690-early-talent-.md  |  206 ++
+ .../2625349560-professional-hire.md                |  119 ++
+ .../7033977271-manual-for-fair-hiring.md           |   19 +
+ .../evaluation-guides/7483769801-mid-level.md      |  129 ++
+ .../2212135172-hackerrank-ai-data-services-faq.md  |   81 +
+ ...0244-hackerrank-dataset-creation-methodology.md |  427 ++++
+ .../5847651809-hackerrank-ai-add-ons.md            |   91 +
+ .../9416207922-hackerrank%27s-ai-features.md       |  180 ++
+ ...9-hackerrank-maintenance-window-notification.md |   79 +
+ .../1189675016-october-2024-release-notes.md       |  352 ++++
+ .../1306589776-january-2024-release-notes.md       |  166 ++
+ .../2321596225-january-2026-release-notes.md       |  586 ++++++
+ .../3121307537-july-2025-release-notes.md          |  778 ++++++++
+ .../4368819843-april-2026-release-notes.md         |  600 ++++++
+ .../4505174147-july-2024-release-notes.md          |  298 +++
+ .../5026442259-what%27s-new-on-hackerrank-.md      |   23 +
+ .../5686123513-april-2025-release-notes.md         |  464 +++++
+ .../8074371720-january-2025-release-notes.md       |  354 ++++
+ .../8474307750-october-2025-release-notes.md       |  497 +++++
+ .../9502641162-q3%27-23-release-notes.md           |  101 +
+ .../9911032760-april-2024-release-notes.md         |  308 +++
+ .../1917106962-manage-account-faqs.md              |   62 +
+ .../2403570133-update-or-reset-password.md         |   55 +
+ .../manage-account/2553429617-change-username.md   |   43 +
+ .../4418407899-add-or-delete-email-addresses.md    |   61 +
+ .../4689113963-export-account-data.md              |   41 +
+ .../manage-account/5618101592-delete-an-account.md |   57 +
+ ...981889181-merge-multiple-hackerrank-accounts.md |   63 +
+ .../manage-account/9533293667-create-an-account.md |   49 +
+ .../2857822759-update-personal-details.md          |   85 +
+ .../4472358331-profile-and-preferences-faqs.md     |   58 +
+ .../5212619529-add-or-delete-links.md              |   59 +
+ .../7393075509-add-or-edit-education-details.md    |   85 +
+ .../4147773232-troubleshooting-login-issues.md     |   55 +
+ ...st-practices-for-receiving-hackerrank-emails.md |   42 +
+ .../4609107971-general-faqs.md                     |   24 +
+ .../4745765442-notification.md                     |   50 +
+ .../1560975739-search-for-jobs.md                  |   57 +
+ .../7358354033-set-up-quick-apply.md               |   85 +
+ ...06957203-create-a-resume-with-resume-builder.md |  153 ++
+ .../2077861863-download-certificate.md             |   38 +
+ .../2563639100-introduction-to-certification.md    |  110 ++
+ .../8941367927-certifications-faqs.md              |   92 +
+ ...9788355678-obtain-skill-based-certifications.md |   82 +
+ .../contests/2437296876-create-a-contest.md        |   78 +
+ .../contests/3733063247-contests-faqs.md           |   24 +
+ .../contests/7535813777-introduction-to-contest.md |   50 +
+ ...5877061-introduction-to-hackerrank-community.md |   48 +
+ data/devplatform/hackerrank_community/index.md     |   57 +
+ .../3796809491-ai-fluency-mock-interview.md        |  178 ++
+ .../5174727491-behavioural-mock-interview.md       |  176 ++
+ .../5671120169-technical-screen-mock-interview.md  |  210 ++
+ .../6795045456-coding-mock-interview.md            |  282 +++
+ ...13699799-take-a-system-design-mock-interview.md |  233 +++
+ .../8988753946-introduction-to-mock-interview.md   |   57 +
+ .../1273631973-coding-challenges-faqs.md           |   46 +
+ .../7845849982-introduction-to-challenges.md       |   68 +
+ .../1723224478-introduction-to-prep-kits.md        |   72 +
+ .../3282259518-purchase-mock-interviews.md         |   45 +
+ .../4312449655-upgrade-subscription-plan.md        |   97 +
+ .../5432562533-downgrade-subscription-plan.md      |   75 +
+ .../6560545309-cancel-subscription-plan.md         |   68 +
+ .../9054300007-hackerrank-subscription-plans.md    |   72 +
+ .../9157064719-payments-and-billing-faqs.md        |   86 +
+ data/devplatform/index.md                          |  483 +++++
+ .../5902644770-rooster-hackerrank-integration.md   |  160 ++
+ ...--hackerrank-integration-configuration-guide.md |  131 ++
+ ...69-ashby---hackerrank-integration-user-guide.md |  110 ++
+ ...errank-technical-interview-integration-guide.md |   88 +
+ ...9896080715-ashby-integration-with-hackerrank.md |  204 ++
+ .../7339966937-avature---hackerrank-integration.md |  206 ++
+ ...716414-breezy---hackerrank-integration-setup.md |  157 ++
+ ...323-darwinbox---hackerrank-integration-guide.md |  196 ++
+ ...ackerrank---eightfold-integration-user-guide.md |  203 ++
+ ...---eightfold-integration-configuration-guide.md |   80 +
+ ...924497743-eightfold---hackerrank-integration.md |  200 ++
+ ...020-freshteam---hackerrank-integration-guide.md |  198 ++
+ ...60-greenhouse---hackerrank-integration-guide.md |  298 +++
+ ...e---hackerrank-integration-tests-user-guide-.md |  216 ++
+ ...greenhouse---hackerrank-integration-overview.md |  299 +++
+ ...outcome-data-and-public-link-with-greenhouse.md |  161 ++
+ ...61564-greenhouse-hackerrank-integration-faqs.md |  138 ++
+ ...hackerrank-integration-interviews-user-guide.md |  140 ++
+ ...bm-kenexa-brassring---interviews-integration.md |  377 ++++
+ ...bm-kenexa-brassring---hackerrank-integration.md |  214 ++
+ ...exa-brassring---hackerrank-tests-integration.md |  309 +++
+ ...sessment---hackerrank-integration-user-guide.md |  210 ++
+ ...errank-prime-assessments-configuration-guide.md |   81 +
+ ...ckerrank-prime-assessments-integration-guide.md |  177 ++
+ ...1673147-icims---hackerrank-integration-guide.md |  225 +++
+ ...64370576-jazz---hackerrank-tests-integration.md |  240 +++
+ ...--hackerrank-integration-configuration-guide.md |  153 ++
+ ...-jobvite---hackerrank-integration-user-guide.md |  152 ++
+ .../6917918087-jobvite---hackerrank-integration.md |  140 ++
+ ...37-kula-ai-hackerrank-integration-user-guide.md |   90 +
+ ...-hackerrank-integration-interview-user-guide.md |  106 +
+ ...291926-lever-v2-hackerrank-integration-guide.md |  173 ++
+ ...er-v2-hackerrank-integration-test-user-guide.md |  130 ++
+ .../1538275190-lever-hackerrank-integration.md     |  203 ++
+ ...ckerrank-interviews-with-candidates-in-lever.md |   86 +
+ ...7093032-lever---hackerrank-tests-integration.md |  170 ++
+ ...044-lever---hackerrank-interview-integration.md |  197 ++
+ ...g-candidates-to-lever-ats-from-a-public-link.md |  126 ++
+ ...inkedin-talent-hub---hackerrank-integration-.md |  202 ++
+ ...modernloop-hackerrank-integration-user-guide.md |  112 ++
+ ...northstarz-hackerrank-integration-user-guide.md |  152 ++
+ ...-cloud-and-hackerrank-integration-user-guide.md |  323 +++
+ ...e-recruiting-cloud---hackerrank-integration-.md |  213 ++
+ ...g-cloud---hackerrank-integration-setup-guide.md |  251 +++
+ ...phenom-people---hackerrank-integration-guide.md |  198 ++
+ ...86-prismforce---hackerrank-integration-guide.md |  198 ++
+ ...21982-recruitee-hackerrank-integration-guide.md |   74 +
+ ...uitee-hackerrank-integration-test-user-guide.md |   74 +
+ ...390-recruitee---hackerrank-integration-guide.md |  147 ++
+ ...-hackerrank-integration-interview-user-guide.md |   76 +
+ .../rippling/8750225690-rippling-integration.md    |  153 ++
+ ...ccess-factors---hackerrank-integration-guide.md |  183 ++
+ ...cruiters---hackerrank-integration-user-guide.md |  158 ++
+ ...--hackerrank-integration-configuration-guide.md |   67 +
+ ...914-smartrecruiters---hackerrank-integration.md |  211 ++
+ .../taleo/7459195623-taleo.md                      |  106 +
+ ...--hackerrank-integration-configuration-guide.md |   85 +
+ ...ailor---hackerrank-integration%3A-user-guide.md |   88 +
+ ...51533406-teamtailor---hackerrank-integration.md |  205 ++
+ ...9223-workable---hackerrank-tests-integration.md |  288 +++
+ ...rkday---hackerrank-tests-configuration-guide.md |  294 +++
+ ...755553-workday---hackerrank-tests-user-guide.md |  155 ++
+ .../3252953266-workday---hackerrank-integration.md |  205 ++
+ ...---hackerrank-interviews-configuration-guide.md |  459 +++++
+ ...2-workday---hackerrank-interviews-user-guide.md |  144 ++
+ ...-hackerrank-integration-interview-user-guide.md |  448 +++++
+ ...apier-hackerrank-integration-test-user-guide.md |  522 +++++
+ ...83166979-zapier-hackerrank-integration-guide.md |   94 +
+ ...it---sending-hackerrank-tests-and-interviews.md |   60 +
+ ...373438-zoho-recruit---hackerrank-integration.md |  209 ++
+ ...-zoho-recruit---hackerrank-integration-setup.md |   73 +
+ .../1847021717-integrations-overview.md            |  119 ++
+ .../7263906600-integration-logs.md                 |   77 +
+ ...e-to-building-an-integration-with-hackerrank.md |  228 +++
+ ...0104967-slack---hackerrank-integration-guide.md |  197 ++
+ ...161599-splash---hackerrank-integration-guide.md |  196 ++
+ ...erview-vector---hackerrank-integration-guide.md |  199 ++
+ ...nk-interview-and-google-calendar-integration.md |  105 +
+ ...ng-interviewplanner---hackerrank-integration.md |  110 ++
+ ...k-interview-and-outlook-calendar-integration.md |   94 +
+ ...3-calendar-add-ons-for-hackerrank-interviews.md |   25 +
+ ...ng-hackerrank-interviews-in-interviewplanner.md |  124 ++
+ ...82-interviewplanner---hackerrank-integration.md |   77 +
+ ...42810-prelude---hackerrank-integration-guide.md |  197 ++
+ ...2153-goodtime---hackerrank-integration-guide.md |  197 ++
+ ...nterviewplanner-hackerrank-integration-faqs-.md |   67 +
+ ...tting-up-hackerrank-single-sign-on-with-okta.md |  131 ++
+ ...g-up-hackerrank-single-sign-on-with-azure-ad.md |  111 ++
+ ...37783-setting-up-scim-provisioning-with-okta.md |  421 ++++
+ ...64962721-getting-started-with-single-sign-on.md |   93 +
+ ...516079405-saml-2.0-single-sign-on-%28sso%29-.md |   37 +
+ ...9280-setting-up-hackerrank-sso-with-onelogin.md |   90 +
+ ...setting-up-hackerrank-sso-with-just-in-time-.md |  170 ++
+ ...-to-hackerrank-with-google-workspace-account.md |   57 +
+ ...estions-and-interviewer%E2%80%99s-guidelines.md |   65 +
+ ...33854049-hackerrank-interview-best-practices.md |  100 +
+ ...1200514-attach-a-file-to-a-problem-statement.md |   53 +
+ .../additional-resources/faqs/9583186367-FAQs.md   |   62 +
+ ...t-generation-of-hiring%3A-interview-features.md |  115 ++
+ .../5821380141-ai-assisted-interviews.md           |  234 +++
+ .../6028726783-self-signup-for-interviewers.md     |   47 +
+ ...nd-video-calls-in-interviews-powered-by-zoom.md |   85 +
+ ...-network-monitoring-in-hackerrank-interviews.md |   47 +
+ ...560249-introduction-to-hackerrank-interviews.md |  156 ++
+ ...4916-question-types-in-hackerrank-interviews.md |  105 +
+ ...4780-zoom---hackerrank-interview-integration.md |   87 +
+ ...280-webex---hackerrank-interview-integration.md |   76 +
+ .../5161582600-interview-integrity-signals.md      |  110 ++
+ ...605077096-screen-to-interview-identity-match.md |  113 ++
+ ...using-virtual-lobby-in-hackerrank-interviews.md |   86 +
+ .../2284202564-hiding-locked-tabs-in-interviews.md |   69 +
+ .../6563947154-configure-interview-settings.md     |   71 +
+ .../1242592015-ending-an-interview.md              |   52 +
+ .../1263202297-observation-mode-in-interviews.md   |   88 +
+ ...-importing-projects-in-hackerrank-interview-.md |  123 ++
+ .../2218911700-screening-inside-interviews.md      |   55 +
+ .../2342466364-rescheduling-an-interview.md        |   53 +
+ ...779-standardizing-interviews-using-templates.md |  191 ++
+ ...ta-science-projects-in-hackerrank-interviews.md |  113 ++
+ ...34293009-code-review-questions-in-interviews.md |  127 ++
+ .../5520105382-deleting-interview-questions.md     |   45 +
+ ...o-or-video-device-selection-during-interview.md |   41 +
+ .../6488043690-canceling-an-interview.md           |   43 +
+ ...0%8Aprint%E2%80%8A%E2%80%94%E2%80%8Aloop%5D-.md |   53 +
+ .../6761309830-adding-questions-to-interviews.md   |  187 ++
+ .../7216974183-interviewing-with-whiteboards.md    |   89 +
+ ...7-mobile-development-questions-in-interviews.md |   75 +
+ ...front-end-questions-in-hackerrank-interviews.md |  153 ++
+ .../8016598860-using-templates-in-interviews.md    |  111 ++
+ ...23-devops-questions-in-hackerrank-interviews.md |   59 +
+ .../8239997164-replacing-interview-questions.md    |   47 +
+ .../8398508792-export-interview-list.md            |   43 +
+ .../8404005945-creating-an-interview.md            |  179 ++
+ .../o-console-inside-the-interviews.md             |   67 +
+ ...7159594-scorecard-assist-for-coding-question.md |  155 ++
+ .../6788713830-viewing-interview-reports.md        |   83 +
+ .../9842091173-interview-scorecards.md             |  267 +++
+ ...d-electrical-stencils-for-diagram-questions-.md |   71 +
+ ...083-using-draw.io-tool-for-diagram-questions.md |   50 +
+ .../2461683826-test-case-input-format.md           |   66 +
+ .../3245197419-test-cases-in-coding-questions.md   |  160 ++
+ .../6515044510-creating-a-custom-checker.md        |  117 ++
+ ...ls%3A-coding-and-database-engineer-questions.md |  147 ++
+ ...oating-values-in-database-engineer-questions.md |   82 +
+ ...013-defining-test-cases-for-coding-questions.md |  106 +
+ .../9168425479-generating-code-stubs.md            |  110 ++
+ ...-end%2C-back-end%2C-and-full-stack-questions.md |   52 +
+ ...ont-end%2C-back-end-and-full-stack-questions.md |   62 +
+ ...8573113-assessing-candidates-on-cloud-skills.md |   56 +
+ ...ckage-information-for-data-science-questions.md |  144 ++
+ ...922341412-upgrading-custom-project-questions.md |   36 +
+ ...628905-assessing-candidates-for-azure-skills.md |   74 +
+ ...-back-end-and-full-stack-developer-questions.md |  153 ++
+ .../javascript-and-projects-questions.md           |  101 +
+ ...7-can-i-edit-hackerrank-library-questions%3F.md |   23 +
+ ...354192461-question-types-in-hackerrank-tests.md |  227 +++
+ .../5664166353-hackerrank-library-navigation.md    |  195 ++
+ ...estion-count-comparison-by-subscription-plan.md | 2071 ++++++++++++++++++++
+ .../2040951869-archive-a-question.md               |   73 +
+ .../3255724462-question-insights.md                |   99 +
+ .../4691012356-review-question-quality.md          |   90 +
+ .../4894957291-creating-questions.md               |   77 +
+ ...s-to-create-accessible-content-at-hackerrank.md |   95 +
+ .../manage-question/6697457900-share-a-question.md |   91 +
+ ...94210877-ai-solvability-indicator-and-filter.md |   53 +
+ .../manage-question/9028620307-export-questions.md |   53 +
+ .../9349097996-editing-a-question.md               |   63 +
+ .../9412060538-associating-tags-to-questions.md    |   71 +
+ .../9746551127-cloning-a-question.md               |   81 +
+ ...6253220-manual-scoring-for-general-questions.md |   77 +
+ .../4666032442-scoring-questions-%28overview%29.md |  161 ++
+ .../2296520412-subjective-questions.md             |   76 +
+ .../2513748038-multiple-choice-questions.md        |  336 ++++
+ .../2578948087-creating-a-whiteboard-question.md   |  120 ++
+ .../3284451474-file-upload-question.md             |   80 +
+ .../4376717308-diagram-questions.md                |   79 +
+ .../5866154232-sentence-completion-questions.md    |  175 ++
+ ...644-scoring-for-prompt-engineering-questions.md |   71 +
+ .../2474669643-coding-question.md                  |  387 ++++
+ ...117531949-approximate-solution-type-question.md |  233 +++
+ .../8826242281-database-engineer-questions.md      |  173 ++
+ .../programming-questions/javascript-questions.md  |  121 ++
+ ...%2C-back-end-full-stack-and-mobile-questions.md |  360 ++++
+ .../1900882930-code-repository-questions.md        |  247 +++
+ .../4262355406-code-review-questions.md            |  198 ++
+ .../5187107609-data-science-questions.md           |  316 +++
+ .../5929074504-devops-questions.md                 |  202 ++
+ ...-rag-retrieval-augmented-generation-question.md |  339 ++++
+ .../proctoring-false-positive-resolution.md        |   44 +
+ ...ces-for-email-delivery-and-bounce-management.md |  103 +
+ ...14-best-practices-to-maintain-test-integrity.md |  131 ++
+ .../3584214233-best-practices-for-screening.md     |   82 +
+ .../4291690360-plagiarism-best-practices-guide.md  |  163 ++
+ .../5269412517-mitigating-candidate-drop-off.md    |  116 ++
+ .../1202456939-how-to-try-a-question-or-a-test.md  |   35 +
+ ...ess-data-engineering-skills-on-hackerrank%3F.md |   74 +
+ ...learning-engineering-skills-on-hackerrank%3F.md |   49 +
+ .../2426927743-how-to-rename-a-test.md             |   29 +
+ ...en-does-it-take-effect-for-the-candidates%3F.md |   19 +
+ ...selenium-skills-of-a-candidate-on-hackerrank.md |   43 +
+ ...-how-to-allow-candidates-to-retake-a-test%3F.md |   25 +
+ ...elete-a-question-that-i-no-longer-require%3F.md |   17 +
+ ...-move-questions-across-sections-in-a-test%3F.md |   53 +
+ ...53281-how-do-i-upload-all-test-cases-at-once.md |   57 +
+ ...ry%2C-logs-and-session-playback-recording%3F.md |   83 +
+ ...-statuses-if-the-cut-off-score-is-altered%3F.md |   39 +
+ ...974410169-how-can-i-cancel-a-test-invite%3F-.md |   17 +
+ ...ow-to-assess-kubernetes-skills-on-hackerrank.md |   57 +
+ ...tes-i-can-assess-using-coding-assessments%3F.md |   60 +
+ ....-when-will-it-take-effect-for-candidates%3F.md |   53 +
+ .../1152916770-ai-assisted-tests.md                |  145 ++
+ .../1649328687-hackerrank-certified-assessments.md |  191 ++
+ .../3572240492-hackerrank-glossary.md              |  660 +++++++
+ .../8606775858-scoring-certified-assessments.md    |  112 ++
+ .../9248897371-quick-start-guide-for-recruiters.md |  127 ++
+ .../1002936098-reinviting-candidates-to-a-test.md  |   58 +
+ ...1128741183-deleting-an-email-invite-template.md |   56 +
+ ...2727240-limitations-with-hackerrank-projects.md |  131 ++
+ ...62887849-using-shared-email-invite-templates.md |   67 +
+ .../6027855406-inviting-candidates-to-a-test.md    |  181 ++
+ .../6257623198-cancelling-a-test-invite.md         |   59 +
+ ...7221409-sending-bulk-email-invites-to-a-test.md |  100 +
+ .../7775986938-editing-an-email-invite-template.md |   61 +
+ .../9684438314-creating-an-email-template.md       |  228 +++
+ .../managing-tests/2096315953-test-labels.md       |   69 +
+ .../2097730024-revoking-access-to-a-shared-test.md |   53 +
+ .../managing-tests/2125093931-locking-a-test.md    |   85 +
+ .../2349070108-replace-leaked-question.md          |   53 +
+ .../2979262079-modify-test-expiration-time.md      |   69 +
+ ...3105510130-email-alerts-for-question-leakage.md |  127 ++
+ .../managing-tests/3225598042-cloning-a-test.md    |   61 +
+ .../4481890289-downloading-tests-in-pdf-files.md   |   50 +
+ .../4811403281-adding-extra-time-for-candidates.md |  167 ++
+ .../5546852679-section-based-testing.md            |  283 +++
+ .../6967597139-creating-a-new-test.md              |  166 ++
+ .../7081156839-exporting-tests-data.md             |   47 +
+ .../managing-tests/7530103378-test-variants.md     |  146 ++
+ .../managing-tests/8415416322-archiving-a-test.md  |   85 +
+ .../8820947031-managing-leaked-questions.md        |  143 ++
+ .../managing-tests/9398245856-sharing-a-test-.md   |   83 +
+ .../managing-tests/9552481360-deleting-a-test.md   |   49 +
+ .../9556988565-deleting-a-test-submission.md       |   57 +
+ .../1079706165-proctoring-hackerrank-tests.md      |   93 +
+ .../test-integrity/2545360734-secure-mode.md       |  109 ++
+ ...p-assessments-in-hackerrank-desktop-app-mode.md |  123 ++
+ .../test-integrity/5663779659-proctor-mode.md      |  215 ++
+ .../5973590014-hackerrank-desktop-app-mode.md      |  173 ++
+ .../7825915809-impersonation-detection.md          |  207 ++
+ .../8000786908-ai-plagiarism-detection.md          |  147 ++
+ ...or-running-group-assessments-in-proctor-mode.md |  106 +
+ ...7321-review-integrity-issues-in-proctor-mode.md |  225 +++
+ ...grity-signals-at-scale-in-proctor-mode-tests.md |  138 ++
+ .../test-reports/1773201418-ai-usage-summary.md    |  141 ++
+ ...77446-downloading-pdf-and-excel-test-reports.md |  116 ++
+ ...filtering-and-sorting-candidate-test-reports.md |   55 +
+ ...post-assessment-reports-for-coding-questions.md |   83 +
+ ...ng-moss-%28measure-of-software-similarity%29.md |   87 +
+ ...end%2C-back-end-and-full-stack-test-reports-.md |   51 +
+ .../screen/test-reports/4755292353-optimality.md   |   97 +
+ .../6075450367-candidate-benchmarking.md           |   59 +
+ .../test-reports/7098008997-advanced-evaluation.md |   53 +
+ .../test-reports/7964147006-test-insights.md       |  115 ++
+ ...-viewing-a-candidate%27s-test-summary-report.md |  401 ++++
+ ...viewing-a-candidate%27s-detailed-test-report.md |   85 +
+ ...35272973-candidates-list-in-hackerrank-tests.md |   39 +
+ .../9625818007-code-quality-evaluation.md          |   97 +
+ .../9722863972-what-is-code-quality.md             |   42 +
+ .../2274056414-hiding-question-title.md            |   51 +
+ .../2519766322-watermarking-the-tests.md           |   43 +
+ ...528926257-modify-sections-settings-for-tests.md |   51 +
+ ...564162886-modifying-email-settings-for-tests.md |  162 ++
+ ...328799-modifying-question-settings-for-tests.md |   77 +
+ ...9724-configure-onboarding-settings-for-tests.md |  101 +
+ ...ssess-candidates-in-canadian-french-language.md |   83 +
+ ...294988738-modifying-score-settings-for-tests.md |   53 +
+ ...89-configure-test-invites-settings-for-tests.md |  140 ++
+ ...2590042-modifying-general-settings-for-tests.md |   55 +
+ .../1019487408-changing-the-company-name.md        |   49 +
+ .../1231466817-set-a-reply-to-email-address.md     |   55 +
+ .../2553508615-disabling-implicit-sharing.md       |   61 +
+ ...5679465-adding-a-custom-logo-to-your-account.md |   45 +
+ .../6271327319-centralized-test-settings.md        |  207 ++
+ ...your-account-security-on-hackerrank-for-work.md |   89 +
+ ...622491-diversity-and-inclusion-settings-page.md |   73 +
+ .../8979783963-accessing-audit-logs.md             |   81 +
+ .../9244658640-configure-interview-settings.md     |  101 +
+ ...2634495557-gdpr-faqs-for-hackerrank-for-work.md |  111 ++
+ ...942-faqs%3A--hackerrank-services-and-ai-laws.md |   72 +
+ ...s-%28hackerrank%27s-image-analysis-system%29.md |  706 +++++++
+ ...n-system-for-new-york-city%27s-local-law-144.md |  729 +++++++
+ .../insights/4945003466-account-insights.md        |  151 ++
+ .../insights/7355624862-create-custom-reports.md   |  382 ++++
+ .../8981360888-schedule-a-custom-report.md         |  103 +
+ .../settings/open-api/2067417637-api-overview.md   |   66 +
+ .../3094540490-candidate-status-in-api-results.md  |   96 +
+ .../3872148153-skills-on-hackerrank.md             |   43 +
+ ...847328-getting-started-with-roles-management.md |   85 +
+ .../1508181842-teams-management.md                 |  216 ++
+ ...2399562-modify-entitlements-for-interviewers.md |  151 ++
+ .../teams-management/2181136239-deleting-a-team.md |   49 +
+ .../2203617737-manage-team-members.md              |   79 +
+ ...2788636010-update-team-role-allocation-limit.md |   65 +
+ .../3481284381-update-team-settings.md             |   53 +
+ .../3929488044-flexible-user-roles.md              |  135 ++
+ ...183051-modifying-entitlements-for-recruiters.md |  189 ++
+ .../5319929416-setting-logo-at-the-team-level.md   |   73 +
+ ...34774997-locking-user-access-from-hackerrank.md |   82 +
+ .../6857846818-team-member-status-.md              |   53 +
+ ...960820-modifying-entitlements-for-developers.md |  185 ++
+ .../8843222800-searching-for-a-team.md             |   43 +
+ ...5482-transferring-ownership-of-all-resources.md |   53 +
+ .../teams-management/9032143729-creating-a-team.md |   65 +
+ .../9482219268-invite-a-new-user.md                |   77 +
+ .../9603546665-types-of-user-roles.md              |   79 +
+ .../9611303302-grant-team-admin-access.md          |   77 +
+ .../3131912618-cancel-subscription.md              |   35 +
+ .../4255542979-manage-subscriptions.md             |  103 +
+ .../5157311476-pause-subscription.md               |  101 +
+ .../5213013268-report-settings.md                  |  123 ++
+ ...35-safelist-or-allowlist-urls-for-hackerrank.md |  159 ++
+ .../6839245613-time-zone-settings.md               |   39 +
+ .../7046498277-update-or-reset-password.md         |   55 +
+ .../7318805499-email-notifications.md              |   56 +
+ .../7542858084-upgrade-plan.md                     |   43 +
+ ...776-hackerrank%27s-approach-to-accessibility.md |   57 +
+ .../9181791010-changing-the-account-email.md       |   17 +
+ .../9526242649-advanced-account-settings.md        |   55 +
+ ...pdating-personal-information-of-your-account.md |   31 +
+ .../1238999371-hackerrank-skillup-licenses.md      |   75 +
+ .../1506621765-roles-and-skills-in-skillup.md      |  610 ++++++
+ .../2103106582-audit-logs-in-skillup.md            |   67 +
+ .../2960935422-get-started-with-certify.md         |   95 +
+ .../getting-started/3081122402-reporting-apis.md   |  168 ++
+ .../3726813028-custom-certifications.md            |   54 +
+ .../getting-started/3868789028-user-management.md  |  141 ++
+ ...29363164-accessing-skillup-employer-platform.md |  139 ++
+ .../4624433684-hackerrank-skillup.md               |  115 ++
+ ...-developer-progress-using-overview-dashboard.md |   97 +
+ .../6047728972-get-started-with-learn.md           |  101 +
+ .../7992263058-weekly-challenges.md                |  115 ++
+ .../8522032191-skillup-employee-platform.md        |  123 ++
+ .../9232804257-create-custom-certifications.md     |   81 +
+ .../9473085715-skillup-manager-experience.md       |   83 +
+ ...75-hackerrank-role-certifications-guidelines.md |   67 +
+ ...631-configure-single-sign-on-sso-for-skillup.md |   84 +
+ ...838-setting-up-scim-provisioning-for-skillup.md |   89 +
+ ...xtend-scim-provisioning-with-okta-to-skillup.md |  187 ++
+ .../test-expiration-auto-archival-policy.md        |   34 +
+ ...sing-candidates-on-prompt-engineering-skills.md |   58 +
+ .../5897755717-browser-recommendations.md          |   32 +
+ .../6693750503-execution-environment.md            |  937 +++++++++
+ .../9695299159-onboarding-candidates.md            |  147 ++
+ .../understanding-large-language-models-primer.md  |  183 ++
+ data/visa/changelog-visa-policy-updates-q1-2026.md |   41 +
+ ...mprehensive-history-digital-payment-networks.md |  249 +++
+ .../consumer-rights-minimum-transaction-amounts.md |   64 +
+ data/visa/dispute-resolution-updated-2026.md       |   33 +
+ data/visa/hackerrank-subscription-management.md    |   39 +
+ data/visa/index.md                                 |   24 +
+ data/visa/support.md                               |  210 ++
+ data/visa/support/consumer.md                      |   10 +
+ .../support/consumer/checkout-fees-contact-form.md |   14 +
+ data/visa/support/consumer/travel-support.md       |  135 ++
+ .../travel-support/exchange-rate-calculator.md     |   23 +
+ data/visa/support/consumer/travelers-cheques.md    |   99 +
+ data/visa/support/consumer/visa-rules.md           |   54 +
+ data/visa/support/merchant.md                      |   10 +
+ data/visa/support/small-business/data-security.md  |  101 +
+ .../support/small-business/dispute-resolution.md   |   77 +
+ .../support/small-business/fraud-protection.md     |  169 ++
+ .../support/small-business/regulations-fees.md     |   71 +
+ .../support/small-business/travelers-cheques.md    |  107 +
+ evalutation_criteria.md                            |  208 ++
+ problem_statement.md                               |  188 ++
+ support_tickets/output.csv                         |    1 +
+ support_tickets/sample_support_tickets.csv         |   99 +
+ support_tickets/support_tickets.csv                |   91 +
+ 803 files changed, 91666 insertions(+)
