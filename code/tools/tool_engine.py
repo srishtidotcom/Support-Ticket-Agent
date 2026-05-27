@@ -35,7 +35,16 @@ class ToolEngine:
 	tool JSON and ensures destructive operations are preceded by identity checks.
 	"""
 
-	_DESTRUCTIVE_TOOLS = {"issue_refund", "modify_subscription"}
+	_DESTRUCTIVE_TOOLS = {
+		"issue_refund",
+		"lock_account",
+		"modify_subscription",
+		"delete_data",
+		"admin_override",
+		"force_action",
+		"close_account",
+		"change_owner",
+	}
 
 	def __init__(
 		self,
@@ -69,7 +78,7 @@ class ToolEngine:
 			return []
 
 		actions = self._build_validated_calls(intent=intent, text=text, classification=classification, status=status)
-		return actions
+		return self._enforce_verify_before_destruct(actions=actions, ticket=ticket, text=text, classification=classification)
 
 	def _propose_intent(
 		self,
@@ -146,10 +155,6 @@ class ToolEngine:
 		if intent.intent == "escalate_to_human":
 			return [self._tool_call("escalate_to_human", self._escalation_params(classification, intent.reasoning))]
 
-		if intent.intent in self._DESTRUCTIVE_TOOLS and not self._identity_verified(text):
-			target = self._extract_email(text) or self._extract_phone(text) or "customer_contact_on_file"
-			return [self._tool_call("verify_identity", {"method": "email_otp", "target": target})]
-
 		if intent.intent == "verify_identity":
 			target = self._extract_email(text) or self._extract_phone(text) or "customer_contact_on_file"
 			return [self._tool_call("verify_identity", {"method": "email_otp", "target": target})]
@@ -183,6 +188,36 @@ class ToolEngine:
 			return [self._tool_call("modify_subscription", params)]
 
 		return []
+
+	def _enforce_verify_before_destruct(
+		self,
+		actions: List[Dict[str, Any]],
+		ticket: Dict[str, Any],
+		text: str,
+		classification: Dict[str, Any],
+	) -> List[Dict[str, Any]]:
+		"""Final code-level guard for destructive tools.
+
+		This runs after intent handling so even future destructive intents or spec
+		changes cannot bypass identity verification by accident.
+		"""
+
+		destructive_actions = [action for action in actions if str(action.get("tool", "")) in self._DESTRUCTIVE_TOOLS]
+		if not destructive_actions:
+			return actions
+		if self._has_successful_verification(ticket):
+			return actions
+
+		target = self._extract_email(text) or self._extract_phone(text) or "customer_contact_on_file"
+		try:
+			return [self._tool_call("verify_identity", {"method": "email_otp", "target": target})]
+		except ValueError:
+			return [
+				self._tool_call(
+					"escalate_to_human",
+					self._escalation_params(classification, "Destructive action blocked until identity is verified."),
+				)
+			]
 
 	def _tool_call(self, name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
 		self._validate_tool_call(name, arguments)
@@ -223,6 +258,29 @@ class ToolEngine:
 	@staticmethod
 	def _identity_verified(text: str) -> bool:
 		return bool(re.search(r"\b(identity verified|verified user|otp verified|verification complete)\b", text, re.IGNORECASE))
+
+	@staticmethod
+	def _has_successful_verification(ticket: Dict[str, Any]) -> bool:
+		issue = ticket.get("issue", "")
+		if isinstance(issue, str):
+			try:
+				issue = json.loads(issue)
+			except Exception:
+				issue = [{"content": issue}]
+		if isinstance(issue, dict):
+			issue = [issue]
+		if not isinstance(issue, list):
+			return False
+
+		for message in issue:
+			if not isinstance(message, dict):
+				continue
+			content = json.dumps(message, ensure_ascii=False).lower()
+			if "verify_identity" not in content:
+				continue
+			if re.search(r"\b(success|succeeded|complete|completed|verified|passed|true)\b", content):
+				return True
+		return False
 
 	@staticmethod
 	def _extract_email(text: str) -> Optional[str]:

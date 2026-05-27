@@ -391,13 +391,28 @@ class SafetyAgent:
 		"""Assess a ticket with a deterministic rule pass and an LLM fallback."""
 
 		ticket_text = self._ticket_to_text(ticket)
-		rule_result = self._assess_with_rules(ticket_text)
+		return self.assess_text(ticket_text, ticket=ticket, use_llm=True)
+
+	def assess_text(
+		self,
+		text: str,
+		ticket: Optional[Dict[str, Any]] = None,
+		use_llm: bool = True,
+	) -> SafetyResult:
+		"""Assess untrusted text with the same adversarial rule set.
+
+		`use_llm=False` keeps corpus sanitization deterministic and fast while
+		reusing the exact rule patterns used for user-facing tickets.
+		"""
+
+		rule_result = self._assess_with_rules(text)
 		if rule_result is not None and rule_result.confidence >= self._HIGH_CONFIDENCE_THRESHOLD:
 			return rule_result
 
-		llm_result = self._assess_with_llm(ticket, ticket_text)
-		if llm_result is not None:
-			return llm_result
+		if use_llm:
+			llm_result = self._assess_with_llm(ticket or {"issue": text}, text)
+			if llm_result is not None:
+				return llm_result
 
 		if rule_result is not None:
 			return rule_result

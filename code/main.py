@@ -40,12 +40,40 @@ class TicketAnalysisPipeline:
 		classification_payload = _dump_model(classification)
 
 		retrieved_chunks = self.retrieval_agent.retrieve(ticket=ticket, classification=classification_payload, top_k=5)
+		sanitizer_filtered_count = self.retrieval_agent.last_sanitizer_filtered_count
 		evidence_result = self.evidence_judge.evaluate(
 			ticket=ticket,
 			retrieved_chunks=retrieved_chunks,
 			classification=classification_payload,
 		)
 		evidence_payload = _dump_model(evidence_result)
+		second_pass_used = False
+		if _needs_second_pass(evidence_payload):
+			second_pass_used = True
+			retrieved_chunks = self.retrieval_agent.retrieve_second_pass(
+				ticket=ticket,
+				classification=classification_payload,
+				existing_chunks=retrieved_chunks,
+				top_k=5,
+			)
+			sanitizer_filtered_count += self.retrieval_agent.last_sanitizer_filtered_count
+			evidence_result = self.evidence_judge.evaluate(
+				ticket=ticket,
+				retrieved_chunks=retrieved_chunks,
+				classification=classification_payload,
+			)
+			evidence_payload = _dump_model(evidence_result)
+			evidence_payload["reasoning"] = (
+				f"Second-pass retrieval triggered after weak evidence and merged broader corpus results. "
+				f"{evidence_payload.get('reasoning', '')}"
+			).strip()
+		if sanitizer_filtered_count:
+			evidence_payload["reasoning"] = (
+				f"Filtered {sanitizer_filtered_count} suspicious chunks from corpus "
+				f"(potential indirect injection). {evidence_payload.get('reasoning', '')}"
+			).strip()
+		evidence_payload["second_pass_retrieval"] = second_pass_used
+		evidence_payload["corpus_sanitizer_filtered_count"] = sanitizer_filtered_count
 		source_documents = _collect_source_documents(evidence_payload, retrieved_chunks)
 
 		generated = self.response_generator.generate(
@@ -234,6 +262,12 @@ def _weighted_confidence(
 	return round((0.40 * evidence_score) + (0.40 * reflection_score) + (0.20 * routing_score), 4)
 
 
+def _needs_second_pass(evidence: Dict[str, Any]) -> bool:
+	action = str(evidence.get("recommended_action", "ask_clarification"))
+	confidence = _as_score(evidence.get("confidence"), 0.0)
+	return action == "ask_clarification" or confidence < 0.60
+
+
 def _as_score(value: Any, default: float) -> float:
 	try:
 		return max(0.0, min(1.0, float(value)))
@@ -283,8 +317,8 @@ def main() -> None:
 	start_time = time.perf_counter()
 	_seed_everything()
 	repo_root = Path(__file__).resolve().parents[1]
-	tickets_path = repo_root / "support_tickets" / "redteam_test.csv"
-	output_path = repo_root / "support_tickets" / "redteam_output.csv"
+	tickets_path = repo_root / "support_tickets" / "support_tickets.csv"
+	output_path = repo_root / "support_tickets" / "output.csv"
 
 	print(f"Loading tickets from {tickets_path}")
 	df = pd.read_csv(tickets_path).fillna("")
