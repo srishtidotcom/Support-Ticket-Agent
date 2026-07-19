@@ -1,4 +1,4 @@
-# MLE Hiring Challenge - Support Ticket Triage Agent
+# Support Ticket Triage Agent
 
 A robust, safety-first, hybrid retrieval agent that triages and resolves customer support tickets across **DevPlatform**, **Claude**, and **Visa** using only the provided documentation corpus.
 
